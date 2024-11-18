@@ -14,44 +14,48 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8.0  # Utilisation de l'image MySQL 8.0
         env:
-          MYSQL_ROOT_PASSWORD: root  # Mot de passe root
+          MYSQL_ROOT_PASSWORD: root  # Mot de passe root pour MySQL
           MYSQL_DATABASE: testdb  # Base de données test
-        options: --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"  # Vérifie la santé de MySQL
+        options: --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"  # Vérification de la santé de MySQL
 
     steps:
-      # Étape 1 : Récupérer le code source
+      # Étape 1 : Récupérer le code source depuis le dépôt GitHub
       - name: Checkout code
         uses: actions/checkout@v2  # Clone le code de votre dépôt GitHub
 
-      # Étape 2 : Configurer PHP
+      # Étape 2 : Configurer PHP (installation de PHP 8.3 et des extensions mysqli)
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3.13'  # Version PHP à utiliser
-          extensions: mysqli  # Active l'extension mysqli nécessaire pour la connexion à MySQL
+          extensions: mysqli  # Active l'extension mysqli pour la connexion à MySQL
 
-      # Étape 3 : Vérification de la syntaxe PHP
+      # Étape 3 : Vérification de la syntaxe PHP (vérifie tous les fichiers PHP du projet)
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
 
-      # Étape 4 : Tester la connexion MySQL
+      # Étape 4 : Afficher les logs du conteneur MySQL pour faciliter le débogage
+      - name: Show MySQL logs
+        run: |
+          docker logs $(docker ps -q -f "ancestor=mysql:8.0")  # Affiche les logs du conteneur MySQL
+
+      # Étape 5 : Tester la connexion MySQL
       - name: Test MySQL connection
         run: |
           echo "Waiting for MySQL to be ready..."
-          # Attente courte pour MySQL
-          timeout=30  # Délai d'attente de 30 secondes
+          timeout=60  # Délai d'attente de 60 secondes pour MySQL
           while ! mysqladmin ping -h 127.0.0.1 --silent; do
             echo "Waiting for MySQL..."
-            sleep 2
-            ((timeout--))
+            sleep 2  # Attente de 2 secondes avant de réessayer
+            ((timeout--))  # Décrémentation du compteur de délai
             if [ $timeout -le 0 ]; then
               echo "MySQL didn't start in time, exiting"
-              exit 1  # Échoue si MySQL ne démarre pas dans le délai
+              exit 1  # Échoue si MySQL ne démarre pas dans le délai imparti
             fi
           done
-          echo "MySQL is ready!"
+          echo "MySQL is ready!"  # Si MySQL est prêt, on affiche ce message
           echo "Testing MySQL connection..."
-          mysql -h 127.0.0.1 -u root -proot -e "SHOW DATABASES;"  # Liste les bases de données
+          mysql -h 127.0.0.1 -u root -proot --port=3306 -e "SHOW DATABASES;"  # Liste les bases de données disponibles
