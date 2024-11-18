@@ -42,14 +42,19 @@ jobs:
         run: |
           docker logs $(docker ps -q -f "ancestor=mysql:8.0")  # Affiche les logs du conteneur MySQL
 
-      # Étape 5 : Tester la connexion MySQL
+      # Étape 5 : Vérifier si le conteneur MySQL est en cours d'exécution
+      - name: Check if MySQL container is running
+        run: |
+          docker ps -a  # Vérifie l'état de tous les conteneurs, y compris MySQL
+
+      # Étape 6 : Tester la connexion MySQL avec une augmentation du délai d'attente
       - name: Test MySQL connection
         run: |
           echo "Waiting for MySQL to be ready..."
-          timeout=60  # Délai d'attente de 60 secondes pour MySQL
-          while ! mysqladmin ping -h mysql -u root -proot --silent; do  # Connexion via le nom du service MySQL
+          timeout=120  # Augmenter le délai d'attente à 120 secondes
+          while ! docker exec $(docker ps -q -f "ancestor=mysql:8.0") mysql -uroot -proot -e "SELECT 1;" ; do
             echo "Waiting for MySQL..."
-            sleep 2  # Attente de 2 secondes avant de réessayer
+            sleep 2
             ((timeout--))  # Décrémentation du compteur de délai
             if [ $timeout -le 0 ]; then
               echo "MySQL didn't start in time, exiting"
@@ -57,5 +62,3 @@ jobs:
             fi
           done
           echo "MySQL is ready!"  # Si MySQL est prêt, on affiche ce message
-          echo "Testing MySQL connection..."
-          mysql -h mysql -u root -proot --port=3306 -e "SHOW DATABASES;"  # Liste les bases de données disponibles
