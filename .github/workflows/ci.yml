@@ -28,8 +28,14 @@ jobs:
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
-      #4. Tester la réponse HTTP de la page index.php
+      
+      #Étape 4 : Démarrer un serveur PHP pour tester
+      - name: Start PHP server
+        run: |
+          php -S 0.0.0.0:8000 &  # Démarrer un serveur PHP sur le port 8000 en arrière-plan
+          sleep 5  # Attendre que le serveur PHP soit prêt
+
+    # Étape 5 : Tester le fichier PHP avec curl
       - name: Test HTTP response
         run: |
-          sleep 5  # Attendre que le serveur PHP soit prêt
-          curl -I http://localhost/agenda-main/signin.php/index.php  # Tester la page d'accueil avec cur
+          curl -I http://127.0.0.1:8000/index.php  # Tester si le serveur PHP répond
