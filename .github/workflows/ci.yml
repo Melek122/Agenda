@@ -21,10 +21,15 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'  # Remplacez par votre version PHP (ex: 8.0)
+          php-version: '8.3.13'  # Remplacez par votre version PHP (ex: 8.0)
           extensions: mysqli, curl  # Activez les extensions PHP nécessaires à votre projet
 
       # Étape 3 : Vérification de la syntaxe PHP
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
+      #4. Tester la réponse HTTP de la page index.php
+      - name: Test HTTP response
+        run: |
+          sleep 5  # Attendre que le serveur PHP soit prêt
+          curl -I http://127.0.0.1:8000/index.php  # Tester la page d'accueil avec cur
