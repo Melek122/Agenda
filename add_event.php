@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 20px;
             text-transform: uppercase;
             background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
-            -webkit-background-clip: text;
+            
             color: transparent;
             animation: textAnimate 2s ease-out infinite;
         }
