@@ -12,6 +12,13 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # Machine virtuelle Ubuntu fournie par GitHub
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root  # Mot de passe root
+          MYSQL_DATABASE: testdb  # Base de données test
+
     steps:
       # Étape 1 : Récupérer le code source
       - name: Checkout code
@@ -21,21 +28,32 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.13'  # Remplacez par votre version PHP (ex: 8.0)
-          extensions: mysqli, curl  # Activez les extensions PHP nécessaires à votre projet
+          php-version: '8.3'  # Version PHP à utiliser
+          extensions: mysqli, curl  # Activez les extensions nécessaires
 
       # Étape 3 : Vérification de la syntaxe PHP
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
-      
-      #Étape 4 : Démarrer un serveur PHP pour tester
+
+      # Étape 4 : Tester MySQL
+      - name: Test MySQL connection
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          until mysqladmin ping -h 127.0.0.1 --silent; do
+            sleep 2
+          done
+          echo "MySQL is ready!"
+          echo "Listing databases..."
+          mysql -h 127.0.0.1 -u root -proot -e "SHOW DATABASES;"  # Liste les bases de données
+
+      # Étape 5 : Démarrer un serveur PHP pour tester
       - name: Start PHP server
         run: |
           php -S 0.0.0.0:8000 &  # Démarrer un serveur PHP sur le port 8000 en arrière-plan
           sleep 5  # Attendre que le serveur PHP soit prêt
 
-    # Étape 5 : Tester le fichier PHP avec curl
+      # Étape 6 : Tester le fichier PHP avec curl
       - name: Test HTTP response
         run: |
           curl -I http://127.0.0.1:8000/index.php  # Tester si le serveur PHP répond
