@@ -32,4 +32,4 @@ jobs:
       - name: Test HTTP response
         run: |
           sleep 5  # Attendre que le serveur PHP soit prêt
-          curl -I http://127.0.0.1:8000/index.php  # Tester la page d'accueil avec cur
+          curl -I http://localhost/agenda-main/signin.php/index.php  # Tester la page d'accueil avec cur
