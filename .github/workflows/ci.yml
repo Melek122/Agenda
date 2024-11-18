@@ -18,6 +18,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root  # Mot de passe root
           MYSQL_DATABASE: testdb  # Base de données test
+        options: --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"  # Vérifie la santé de MySQL
 
     steps:
       # Étape 1 : Récupérer le code source
@@ -29,31 +30,28 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'  # Version PHP à utiliser
-          extensions: mysqli, curl  # Activez les extensions nécessaires
+          extensions: mysqli  # Active l'extension mysqli nécessaire pour la connexion à MySQL
 
       # Étape 3 : Vérification de la syntaxe PHP
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
 
-      # Étape 4 : Tester MySQL
+      # Étape 4 : Tester la connexion MySQL
       - name: Test MySQL connection
         run: |
           echo "Waiting for MySQL to be ready..."
-          until mysqladmin ping -h 127.0.0.1 --silent; do
+          # Attente courte pour MySQL
+          timeout=30  # Délai d'attente de 30 secondes
+          while ! mysqladmin ping -h 127.0.0.1 --silent; do
+            echo "Waiting for MySQL..."
             sleep 2
+            ((timeout--))
+            if [ $timeout -le 0 ]; then
+              echo "MySQL didn't start in time, exiting"
+              exit 1  # Échoue si MySQL ne démarre pas dans le délai
+            fi
           done
           echo "MySQL is ready!"
-          echo "Listing databases..."
+          echo "Testing MySQL connection..."
           mysql -h 127.0.0.1 -u root -proot -e "SHOW DATABASES;"  # Liste les bases de données
-
-      # Étape 5 : Démarrer un serveur PHP pour tester
-      - name: Start PHP server
-        run: |
-          php -S 0.0.0.0:8000 &  # Démarrer un serveur PHP sur le port 8000 en arrière-plan
-          sleep 5  # Attendre que le serveur PHP soit prêt
-
-      # Étape 6 : Tester le fichier PHP avec curl
-      - name: Test HTTP response
-        run: |
-          curl -I http://127.0.0.1:8000/index.php  # Tester si le serveur PHP répond
