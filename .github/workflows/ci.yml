@@ -1,36 +1,30 @@
-name: CI Workflow
+name: PHP Native CI/CD Workflow
 
 on:
   push:
     branches:
-      - main  # Le workflow sera exécuté sur chaque push vers la branche main
+      - main  # Exécute le workflow à chaque push sur la branche principale
   pull_request:
     branches:
-      - main  # Le workflow sera aussi exécuté sur chaque pull request vers la branche main
+      - main  # Exécute le workflow lors d'une pull request sur la branche principale
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # Définissez l'environnement d'exécution (ici, Ubuntu)
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Machine virtuelle Ubuntu fournie par GitHub
 
     steps:
-      # Étape 1: Checkout du code source
+      # Étape 1 : Récupérer le code source
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2  # Clone le code de votre dépôt GitHub
 
-      # Étape 2: Configurer PHP
+      # Étape 2 : Configurer PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.13'  # Vous pouvez spécifier la version PHP que vous utilisez (ici PHP 7.4)
-          extensions: mysqli, curl  # Si votre application PHP nécessite des extensions, vous pouvez les ajouter ici
+          php-version: '7.4'  # Remplacez par votre version PHP (ex: 8.0)
+          extensions: mysqli, curl  # Activez les extensions PHP nécessaires à votre projet
 
-      # Étape 3: Installer les dépendances avec Composer
-      - name: Install dependencies using Composer
+      # Étape 3 : Vérification de la syntaxe PHP
+      - name: Check PHP syntax
         run: |
-          curl -sS https://getcomposer.org/installer | php  # Installe Composer
-          php composer.phar install  # Installe les dépendances du projet
-
-      # Étape 4: Exécuter des tests (si vous avez des tests PHPUnit, par exemple)
-      - name: Run tests
-        run: |
-          ./vendor/bin/phpunit  # Remplacez par la commande nécessaire pour exécuter vos tests
+          find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
