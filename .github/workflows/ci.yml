@@ -1,0 +1,36 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main  # Le workflow sera exécuté sur chaque push vers la branche main
+  pull_request:
+    branches:
+      - main  # Le workflow sera aussi exécuté sur chaque pull request vers la branche main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Définissez l'environnement d'exécution (ici, Ubuntu)
+
+    steps:
+      # Étape 1: Checkout du code source
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Étape 2: Configurer PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3.13'  # Vous pouvez spécifier la version PHP que vous utilisez (ici PHP 7.4)
+          extensions: mysqli, curl  # Si votre application PHP nécessite des extensions, vous pouvez les ajouter ici
+
+      # Étape 3: Installer les dépendances avec Composer
+      - name: Install dependencies using Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php  # Installe Composer
+          php composer.phar install  # Installe les dépendances du projet
+
+      # Étape 4: Exécuter des tests (si vous avez des tests PHPUnit, par exemple)
+      - name: Run tests
+        run: |
+          ./vendor/bin/phpunit  # Remplacez par la commande nécessaire pour exécuter vos tests
