@@ -47,7 +47,7 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           timeout=60  # Délai d'attente de 60 secondes pour MySQL
-          while ! mysqladmin ping -h 127.0.0.1 --silent; do
+          while ! mysqladmin ping -h mysql -u root -proot --silent; do  # Connexion via le nom du service MySQL
             echo "Waiting for MySQL..."
             sleep 2  # Attente de 2 secondes avant de réessayer
             ((timeout--))  # Décrémentation du compteur de délai
@@ -58,4 +58,4 @@ jobs:
           done
           echo "MySQL is ready!"  # Si MySQL est prêt, on affiche ce message
           echo "Testing MySQL connection..."
-          mysql -h 127.0.0.1 -u root -proot --port=3306 -e "SHOW DATABASES;"  # Liste les bases de données disponibles
+          mysql -h mysql -u root -proot --port=3306 -e "SHOW DATABASES;"  # Liste les bases de données disponibles
