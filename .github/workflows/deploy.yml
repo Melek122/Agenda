@@ -14,11 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Étape 2 : Construire le projet (si nécessaire)
+      # Étape 2 : Créer le répertoire build et y copier tous les fichiers, sauf le répertoire build lui-même
       - name: Build Project
         run: |
           mkdir -p build
-          cp -r * build/  # Copie tous les fichiers du projet dans le répertoire build
+          shopt -s dotglob  # Inclure les fichiers cachés dans la copie
+          cp -r !(build) build/  # Copie tous les fichiers dans le répertoire build, sauf le répertoire build
 
       # Étape 3 : Déployer sur GitHub Pages
       - name: Deploy to GitHub Pages
