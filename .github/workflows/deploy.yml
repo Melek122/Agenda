@@ -1,0 +1,33 @@
+name: PHP Native CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main  # Déclenche le workflow lors d'un push sur la branche principale
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Utilisation d'une machine virtuelle Ubuntu
+
+    steps:
+      # Étape 1 : Récupérer le code source depuis le dépôt GitHub
+      - name: Checkout code
+        uses: actions/checkout@v2  # Clone le code de votre dépôt
+
+      # Étape 2 : Installer PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3.13'  # Version PHP à utiliser
+          extensions: mysqli  # Active l'extension mysqli pour la connexion à MySQL
+
+      # Étape 3 : Déployer l'application vers GitHub Pages (optionnel si vous déployez vers GitHub Pages)
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # La branche où seront déployés les fichiers
+          folder: build  # Le dossier contenant les fichiers à déployer (ex. dossier de construction)
+
+     
+      #
