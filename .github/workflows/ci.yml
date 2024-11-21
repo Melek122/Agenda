@@ -13,12 +13,12 @@ on:
       - main  # Exécute le workflow lors d'une pull request sur la branche principale
 
       
-# env:
-#   RESOURCE-GROUP: agenda-mysql
-#   LOCATION: Central US 
-#   TEMPLATE-FILE: infra/webapp.bicep
-#   SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff 
-#   WEBAPP-NAME: agenda-app-akfhgecxbdecc7a8.centralus-01.azurewebsites.net
+env:
+  RESOURCE-GROUP: agenda-mysql
+  LOCATION: Central US 
+  TEMPLATE-FILE: infra/webapp.bicep
+  SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff 
+  WEBAPP-NAME: agenda-app-akfhgecxbdecc7a8.centralus-01.azurewebsites.net
       
 jobs:
   build-and-deploy:
