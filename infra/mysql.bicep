@@ -2,10 +2,10 @@
 param location string = resourceGroup().location
 
 @description('MySQL server name')
-param mysqlServerName string
+param agenda-server string
 
 resource mysqlServer 'Microsoft.DBforMySQL/servers@2021-05-01' = {
-  name: mysqlServerName
+  name: agenda-server
   location: location
   properties: {
     administratorLogin: 'yokasraoui'
