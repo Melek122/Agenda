@@ -1,13 +1,12 @@
+@description('Location for resources')
+param location string = resourceGroup().location
+
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
-  name: 'ASP-agendamysql-80a4'  // Fixed by removing trailing space
-  location: resourceGroup().location
+  name: 'ASP-agendamysql-80a4'
+  location: location
   sku: {
-    name: 'B1'  // Pricing tier
+    name: 'B1'
     tier: 'Basic'
     capacity: 1
-  }
-  properties: {
-    perSiteScaling: false
-    reserved: false
   }
 }
