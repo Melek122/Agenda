@@ -85,6 +85,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'my-php-app'  # Remplacez par le nom de votre App Service
+          app-name: 'agenda-app'  # Remplacez par le nom de votre App Service
           slot-name: 'production' # Nom de l'environnement (production par défaut)
-          publish-profile: ${ AZURE_WEBAPP_PUBLISH_PROFILE }  # Profil de publication sécurisé
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Profil de publication sécurisé
