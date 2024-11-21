@@ -1,32 +1,35 @@
 @description('The location for resources')
 param location string = resourceGroup().location
 
-
-// Define the MySQL server resource
-resource mysqlServer 'Microsoft.DBforMySQL/servers@2020-01-01' = {
-  name: 'agenda-server.mysql.database.azure.com'
+// Define the MySQL server resource using Flexible Server
+resource mysqlServer 'Microsoft.DBforMySQL/flexibleServers@2022-09-01' = {
+  name: 'agenda-server'  // Flexible server name (simplified to avoid ".mysql.database.azure.com")
   location: location
+  sku: {
+    name: 'Standard_B1ms'  // Updated SKU name for Flexible Server
+    tier: 'Burstable'  // Burstable workloads tier
+  }
   properties: {
     administratorLogin: 'yokasraoui'
-    administratorLoginPassword: 'fuckilyes123+'  // Use secure password
-    version: '8.0'
-    sku: {
-      name: 'B1ms'  // Burstable SKU with 1 vCore and 2 GiB RAM
-      tier: 'Burstable'  // Tier for burstable workloads
-      capacity: 1  // 1 vCore
+    administratorLoginPassword: 'fuckilyes123+'  // Use a secure password in production
+    version: '8.0'  // MySQL version
+    storage: {
+      storageSizeGB: 20  // Specify storage size in GB
     }
-    storageProfile: {
-      storageMB: 20480  // 20 GiB storage
-      backupRetentionDays: 7  // Backup retention days
-      geoRedundantBackup: 'Disabled'  // Enable or disable geo-redundant backup
+    backup: {
+      backupRetentionDays: 7  // Backup retention in days
+      geoRedundantBackup: 'Disabled'  // Geo-redundant backup
+    }
+    highAvailability: {
+      mode: 'Disabled'  // High availability configuration
     }
   }
 }
 
-// Define the MySQL database resource under the MySQL server
-resource mysqlDatabase 'Microsoft.DBforMySQL/servers/databases@2020-01-01' = {
-  parent: mysqlServer  // Use 'parent' to reference the MySQL server
-  name: 'agenda-server'  // Database name
+// Define the MySQL database resource under the Flexible Server
+resource mysqlDatabase 'Microsoft.DBforMySQL/flexibleServers/databases@2022-09-01' = {
+  parent: mysqlServer  // Use 'parent' to reference the Flexible Server
+  name: 'agenda'  // Database name
   properties: {
     collation: 'utf8_general_ci'
     charset: 'utf8'
