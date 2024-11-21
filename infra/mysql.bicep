@@ -2,7 +2,7 @@
 param location string = resourceGroup().location
 
 @description('MySQL server name')
-param agenda-server.mysql.database.azure.com string  // Use camelCase for parameter names
+param string = agenda-server.mysql.database.azure.com  // Use camelCase for parameter names
 
 // Define the MySQL server resource
 resource mysqlServer 'Microsoft.DBforMySQL/servers@2021-05-01' = {
