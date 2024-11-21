@@ -80,7 +80,33 @@ jobs:
                 die('./Database connection failed: ' . \$e->getMessage());
             }
           "
-        
+      - name: Deploy App Service Plan
+        run: |
+          az deployment group create \
+            --resource-group agenda-mysql \
+            --template-file ./infra/appserviceplan.bicep
+
+      # Step 4: Deploy the MySQL Database
+      - name: Deploy MySQL Database
+        run: |
+          az deployment group create \
+            --resource-group agenda-mysql \
+            --template-file ./infra/mysql.bicep
+
+      # Step 5: Deploy the Web App
+      - name: Deploy Web App
+        run: |
+          az deployment group create \
+            --resource-group agenda-mysql \
+            --template-file ./infra/webapp.bicep
+
+      # Step 6: Output Results (optional)
+      - name: Deploy Outputs
+        run: |
+          az deployment group create \
+            --resource-group agenda-mysql \
+            --template-file ./infra/output.bicep
+            
       # Étape 4 : Déployer sur Azure App Service
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
