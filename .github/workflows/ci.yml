@@ -1,6 +1,10 @@
 name: PHP Native CI/CD Workflow
 
 on:
+
+
+  
+
   push:
     branches:
       - main  # Exécute le workflow à chaque push sur la branche principale
@@ -8,6 +12,14 @@ on:
     branches:
       - main  # Exécute le workflow lors d'une pull request sur la branche principale
 
+      
+# env:
+#   RESOURCE-GROUP: agenda-mysql
+#   LOCATION: Central US 
+#   TEMPLATE-FILE: infra/webapp.bicep
+#   SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff 
+#   WEBAPP-NAME: agenda-app-akfhgecxbdecc7a8.centralus-01.azurewebsites.net
+      
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # Machine virtuelle Ubuntu fournie par GitHub
@@ -62,3 +74,11 @@ jobs:
             fi
           done
           echo "MySQL is ready!"  # Si MySQL est prêt, on affiche ce message
+        
+      # Étape 4 : Déployer sur Azure App Service
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'my-php-app'  # Remplacez par le nom de votre App Service
+          slot-name: 'production' # Nom de l'environnement (production par défaut)
+          publish-profile: ${ AZURE_WEBAPP_PUBLISH_PROFILE }  # Profil de publication sécurisé
