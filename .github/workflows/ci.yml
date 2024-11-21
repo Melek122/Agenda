@@ -1,116 +1,79 @@
 name: PHP Native CI/CD Workflow
 
 on:
-
-
-  
-
   push:
     branches:
-      - main  # Exécute le workflow à chaque push sur la branche principale
+      - main  # Trigger on pushes to the main branch
   pull_request:
     branches:
-      - main  # Exécute le workflow lors d'une pull request sur la branche principale
+      - main  # Trigger on pull requests to the main branch
 
-      
 env:
   RESOURCE-GROUP: agenda-mysql
-  LOCATION: Central US 
+  LOCATION: Central US
   TEMPLATE-FILE: infra/webapp.bicep
-  SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff 
+  SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff
   WEBAPP-NAME: agenda-app-akfhgecxbdecc7a8.centralus-01.azurewebsites.net
-      
+
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # Machine virtuelle Ubuntu fournie par GitHub
-
-    services:
-      mysql:
-        image: mysql:8.0  # Utilisation de l'image MySQL 8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root  # Mot de passe root pour MySQL
-          MYSQL_DATABASE: testdb  # Base de données test
-        options: --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"  # Vérification de la santé de MySQL
+    runs-on: ubuntu-latest  # Ubuntu runner provided by GitHub
 
     steps:
-      # Étape 1 : Récupérer le code source depuis le dépôt GitHub
+      # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2  # Clone le code de votre dépôt GitHub
+        uses: actions/checkout@v2
 
-      # Étape 2 : Configurer PHP (installation de PHP 8.3 et des extensions mysqli)
+      # Step 2: Log in to Azure using the Service Principal
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 3: Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.13'  # Version PHP à utiliser
-          extensions: mysqli  # Active l'extension mysqli pour la connexion à MySQL
+          php-version: '8.3'
+          extensions: mysqli
 
-      # Étape 3 : Vérification de la syntaxe PHP (vérifie tous les fichiers PHP du projet)
+      # Step 4: Syntax check for PHP files
       - name: Check PHP syntax
         run: |
-          find . -name "*.php" -exec php -l {} \;  # Vérifie la syntaxe de tous les fichiers PHP
+          find . -name "*.php" -exec php -l {} \;
 
-      # Étape 4 : Afficher les logs du conteneur MySQL pour faciliter le débogage
-      - name: Show MySQL logs
-        run: |
-          docker logs $(docker ps -q -f "ancestor=mysql:8.0")  # Affiche les logs du conteneur MySQL
-
-      # Étape 5 : Vérifier si le conteneur MySQL est en cours d'exécution
-      - name: Check if MySQL container is running
-        run: |
-          docker ps -a  # Vérifie l'état de tous les conteneurs, y compris MySQL
-
-      # Étape 6 : Tester la connexion MySQL avec une augmentation du délai d'attente
-      - name: Test Database Connection (with SSL)
-        run: |
-          php -r "
-            \$host = 'agenda-server.mysql.database.azure.com';
-            \$dbname = 'agenda-server';
-            \$user = 'cnvjhyjscs';
-            \$pass = 'fuckilyes123+';
-            \$ssl_cert = 'DigiCertGlobalRootCA.crt.pem';  # Path to the SSL certificate
-            try {
-                \$pdo = new PDO(
-                    'mysql:host=' . \$host . ';dbname=' . \$dbname . ';ssl-ca=' . \$ssl_cert,
-                    \$user,
-                    \$pass
-                );
-                \$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo 'Connected to Azure MySQL Database with SSL!';
-            } catch (PDOException \$e) {
-                die('./Database connection failed: ' . \$e->getMessage());
-            }
-          "
+      # Step 5: Deploy App Service Plan
       - name: Deploy App Service Plan
         run: |
           az deployment group create \
-            --resource-group agenda-mysql \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
             --template-file ./infra/appserviceplan.bicep
 
-      # Step 4: Deploy the MySQL Database
+      # Step 6: Deploy MySQL Database
       - name: Deploy MySQL Database
         run: |
           az deployment group create \
-            --resource-group agenda-mysql \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
             --template-file ./infra/mysql.bicep
 
-      # Step 5: Deploy the Web App
+      # Step 7: Deploy Web App
       - name: Deploy Web App
         run: |
           az deployment group create \
-            --resource-group agenda-mysql \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
             --template-file ./infra/webapp.bicep
 
-      # Step 6: Output Results (optional)
+      # Step 8: Deploy Outputs (Optional)
       - name: Deploy Outputs
         run: |
           az deployment group create \
-            --resource-group agenda-mysql \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
             --template-file ./infra/output.bicep
-            
-      # Étape 4 : Déployer sur Azure App Service
+
+      # Step 9: Deploy to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'agenda-app'  # Remplacez par le nom de votre App Service
-          slot-name: 'production' # Nom de l'environnement (production par défaut)
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Profil de publication sécurisé
+          app-name: ${{ env.WEBAPP-NAME }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
