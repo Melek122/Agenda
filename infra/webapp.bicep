@@ -9,7 +9,7 @@ param location string = resourceGroup().location
 
 resource webApp 'Microsoft.Web/sites@2021-02-01' = {
   name: webAppName
-  location: centralus
+  location: location
   properties: {
     serverFarmId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
   }
