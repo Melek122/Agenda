@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 
 
 // Define the MySQL server resource
-resource mysqlServer 'Microsoft.DBforMySQL/servers@2021-05-01' = {
+resource mysqlServer 'Microsoft.DBforMySQL/servers@2020-01-01' = {
   name: 'agenda-server.mysql.database.azure.com'
   location: location
   properties: {
