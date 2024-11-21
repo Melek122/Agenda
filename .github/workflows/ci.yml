@@ -51,12 +51,12 @@ jobs:
           --parameters location="${{ env.LOCATION }}"
 
       # Step 6: Deploy MySQL Database
-      - name: Deploy MySQL Database
-        run: |
-          az deployment group create \
-            --resource-group ${{ env.RESOURCE-GROUP }} \
-            --template-file ./infra/mysql.bicep \
-            --parameters location="${{ env.LOCATION }}"
+      #- name: Deploy MySQL Database
+      #  run: |
+       #   az deployment group create \
+        #    --resource-group ${{ env.RESOURCE-GROUP }} \
+         #   --template-file ./infra/mysql.bicep \
+          #  --parameters location="${{ env.LOCATION }}"
       
       # Step 7: Deploy Web App
       - name: Deploy Web App
