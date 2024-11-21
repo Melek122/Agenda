@@ -16,7 +16,7 @@ resource mysqlServer 'Microsoft.DBforMySQL/servers@2020-01-01' = {
       capacity: 2  // Capacity in vCores
     }
     storageProfile: {
-      storageMB: 21474.8  // Storage size in MB (e.g., 5GB)
+      storageMB: 21474  // Storage size in MB (e.g., 5GB)
       backupRetentionDays: 7  // Backup retention days (set according to your needs)
       geoRedundantBackup: 'Disabled'  // Enable or disable geo-redundant backup
     }
