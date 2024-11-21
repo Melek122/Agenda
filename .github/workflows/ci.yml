@@ -46,22 +46,26 @@ jobs:
       - name: Deploy App Service Plan
         run: |
           az deployment group create \
-            --resource-group ${{ env.RESOURCE-GROUP }} \
-            --template-file ./infra/appserviceplan.bicep
+          --resource-group ${{ env.RESOURCE-GROUP }} \
+          --template-file ./infra/appserviceplan.bicep \
+          --parameters location="${{ env.LOCATION }}"
 
       # Step 6: Deploy MySQL Database
       - name: Deploy MySQL Database
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE-GROUP }} \
-            --template-file ./infra/mysql.bicep
-
+            --template-file ./infra/mysql.bicep \
+            --parameters location="${{ env.LOCATION }}"
+      
       # Step 7: Deploy Web App
       - name: Deploy Web App
         run: |
           az deployment group create \
             --resource-group ${{ env.RESOURCE-GROUP }} \
-            --template-file ./infra/webapp.bicep
+            --template-file ./infra/webapp.bicep \
+            --parameters location="${{ env.LOCATION }}"
+
 
       # Step 8: Deploy Outputs (Optional)
       - name: Deploy Outputs
