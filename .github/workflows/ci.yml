@@ -68,11 +68,11 @@ jobs:
 
 
       # Step 8: Deploy Outputs (Optional)
-      - name: Deploy Outputs
-        run: |
-          az deployment group create \
-            --resource-group ${{ env.RESOURCE-GROUP }} \
-            --template-file ./infra/output.bicep
+      #- name: Deploy Outputs
+       # run: |
+        #  az deployment group create \
+         #   --resource-group ${{ env.RESOURCE-GROUP }} \
+          #  --template-file ./infra/output.bicep
 
       # Step 9: Deploy to Azure Web App
       - name: Deploy to Azure Web App
