@@ -60,20 +60,26 @@ jobs:
           docker ps -a  # Vérifie l'état de tous les conteneurs, y compris MySQL
 
       # Étape 6 : Tester la connexion MySQL avec une augmentation du délai d'attente
-      - name: Test MySQL connection
+      - name: Test Database Connection (with SSL)
         run: |
-          echo "Waiting for MySQL to be ready..."
-          timeout=120  # Augmenter le délai d'attente à 120 secondes
-          while ! docker exec $(docker ps -q -f "ancestor=mysql:8.0") mysql -uroot -proot -e "SELECT 1;" ; do
-            echo "Waiting for MySQL..."
-            sleep 2
-            ((timeout--))  # Décrémentation du compteur de délai
-            if [ $timeout -le 0 ]; then
-              echo "MySQL didn't start in time, exiting"
-              exit 1  # Échoue si MySQL ne démarre pas dans le délai imparti
-            fi
-          done
-          echo "MySQL is ready!"  # Si MySQL est prêt, on affiche ce message
+          php -r "
+            \$host = 'agenda-server.mysql.database.azure.com';
+            \$dbname = 'agenda-server';
+            \$user = 'cnvjhyjscs';
+            \$pass = 'fuckilyes123+';
+            \$ssl_cert = 'DigiCertGlobalRootCA.crt.pem';  # Path to the SSL certificate
+            try {
+                \$pdo = new PDO(
+                    'mysql:host=' . \$host . ';dbname=' . \$dbname . ';ssl-ca=' . \$ssl_cert,
+                    \$user,
+                    \$pass
+                );
+                \$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                echo 'Connected to Azure MySQL Database with SSL!';
+            } catch (PDOException \$e) {
+                die('./Database connection failed: ' . \$e->getMessage());
+            }
+          "
         
       # Étape 4 : Déployer sur Azure App Service
       - name: Deploy to Azure Web App
