@@ -11,13 +11,13 @@ resource mysqlServer 'Microsoft.DBforMySQL/servers@2020-01-01' = {
     administratorLoginPassword: 'fuckilyes123+'  // Use secure password
     version: '8.0'
     sku: {
-      name: 'GP_Gen5_2'  // SKU for Basic tier with Gen5 architecture and 1 vCore
-      tier: 'GeneralPurpose'  // Tier selection (Basic, GeneralPurpose, MemoryOptimized)
-      capacity: 2  // Capacity in vCores
+      name: 'B1ms'  // Burstable SKU with 1 vCore and 2 GiB RAM
+      tier: 'Burstable'  // Tier for burstable workloads
+      capacity: 1  // 1 vCore
     }
     storageProfile: {
-      storageMB: 20000  // Storage size in MB (e.g., 5GB)
-      backupRetentionDays: 7  // Backup retention days (set according to your needs)
+      storageMB: 20480  // 20 GiB storage
+      backupRetentionDays: 7  // Backup retention days
       geoRedundantBackup: 'Disabled'  // Enable or disable geo-redundant backup
     }
   }
