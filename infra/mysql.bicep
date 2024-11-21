@@ -8,9 +8,9 @@ resource mysqlServer 'Microsoft.DBforMySQL/servers@2021-05-01' = {
   name: mysqlServerName
   location: location
   properties: {
-    administratorLogin: 'admin'
-    administratorLoginPassword: 'Password123!'
-    version: '5.7'
+    administratorLogin: 'yokasraoui'
+    administratorLoginPassword: 'fuckilyes123+'
+    version: '8.0'
   }
 }
 
