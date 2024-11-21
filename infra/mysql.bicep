@@ -2,7 +2,7 @@
 param location string = resourceGroup().location
 
 // Define the MySQL server resource using Flexible Server
-resource mysqlServer 'Microsoft.DBforMySQL/flexibleServers@2022-09-01' = {
+resource mysqlServer 'Microsoft.DBforMySQL/flexibleServers@2024-10-30' = {
   name: 'agenda-server'  // Flexible server name (simplified to avoid ".mysql.database.azure.com")
   location: location
   sku: {
@@ -27,7 +27,7 @@ resource mysqlServer 'Microsoft.DBforMySQL/flexibleServers@2022-09-01' = {
 }
 
 // Define the MySQL database resource under the Flexible Server
-resource mysqlDatabase 'Microsoft.DBforMySQL/flexibleServers/databases@2022-09-01' = {
+resource mysqlDatabase 'Microsoft.DBforMySQL/flexibleServers/databases@2024-10-30' = {
   parent: mysqlServer  // Use 'parent' to reference the Flexible Server
   name: 'agenda'  // Database name
   properties: {
