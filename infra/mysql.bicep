@@ -14,7 +14,7 @@ resource mysqlServer 'Microsoft.DBforMySQL/servers@2021-05-01' = {
 }
 
 // Define the MySQL database resource under the MySQL server
-resource mysqlDatabase 'Microsoft.DBforMySQL/servers/databases@2021-05-01' = {
+resource mysqlDatabase 'Microsoft.DBforMySQL/servers/databases@2020-01-01' = {
   parent: mysqlServer  // Use 'parent' to reference the MySQL server
   name: 'agenda-server'  // Database name
   properties: {
