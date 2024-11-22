@@ -41,7 +41,11 @@ jobs:
       - name: Check PHP syntax
         run: |
           find . -name "*.php" -exec php -l {} \;
-
+          
+      - name: Deploy SSL Certificate
+        run: |
+            echo "${{ secrets.AZURE_SSL_CERT }}" | base64 -d > ./DigiCertTLSECCP384RootG5.crt.pem
+            
       # Step 5: Deploy App Service Plan
       - name: Deploy App Service Plan
         run: |
@@ -65,7 +69,6 @@ jobs:
             --resource-group ${{ env.RESOURCE-GROUP }} \
             --template-file ./infra/webapp.bicep \
             --parameters location="${{ env.LOCATION }}"
-
 
       # Step 8: Deploy Outputs (Optional)
       #- name: Deploy Outputs
