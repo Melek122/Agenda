@@ -13,7 +13,7 @@ env:
   LOCATION: Central US
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: bf182e9b-9eda-46c1-882a-3c5668f297ff
-  WEBAPP-NAME: agenda-app-akfhgecxbdecc7a8.centralus-01.azurewebsites.net
+  WEBAPP-NAME: agenda-app
 
 jobs:
   build-and-deploy:
