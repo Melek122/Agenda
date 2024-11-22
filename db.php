@@ -5,6 +5,5 @@ $host = 'agenda-server.mysql.database.azure.com';  // Fully qualified domain nam
 $dbname = 'agenda-database';  // Replace with your actual database name
 $user = 'cnvjhyjscs';  // Include @servername for Azure MySQL username
 $pass = 'fuckilyes123+';  // Your Azure MySQL password
-$ssl_cert = 'DigiCertTLSECCP384RootG5.crt.pem';  // Path to the downloaded SSL certificate
 
 ?>
