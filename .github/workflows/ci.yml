@@ -51,7 +51,7 @@ jobs:
       - name: Import MySQL Database
         env:
           MYSQL_HOST: agenda-server.mysql.database.azure.com
-          MYSQL_USER: yokasraoui@agenda-server.mysql.database.azure.com
+          MYSQL_USER: cnvjhyjscs@agenda-server.mysql.database.azure.com
           MYSQL_PASSWORD: fuckilyes123+
           MYSQL_DATABASE: agenda-database
         run: |
