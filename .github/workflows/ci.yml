@@ -52,7 +52,7 @@ jobs:
         env:
           MYSQL_HOST: agenda-server.mysql.database.azure.com
           MYSQL_USER: cnvjhyjscs@agenda-server.mysql.database.azure.com
-          MYSQL_PASSWORD: ${{ secrets.AZURE_MYSQL_PASSWORD }}
+          MYSQL_PASSWORD: fuckilyes123+
           MYSQL_DATABASE: agenda-database
         run: |
           mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < ./agenda_app.sql
@@ -62,7 +62,7 @@ jobs:
         env:
           MYSQL_HOST: agenda-server.mysql.database.azure.com
           MYSQL_USER: cnvjhyjscs@agenda-server.mysql.database.azure.com
-          MYSQL_PASSWORD: ${{ secrets.AZURE_MYSQL_PASSWORD }}
+          MYSQL_PASSWORD: fuckilyes123+
           MYSQL_DATABASE: agenda-database
         run: |
           mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW TABLES;" $MYSQL_DATABASE
