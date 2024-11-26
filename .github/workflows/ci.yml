@@ -42,10 +42,30 @@ jobs:
         run: |
           find . -name "*.php" -exec php -l {} \;
           
-      - name: Download SSL Certificate
+      - name: Install MySQL CLI
         run: |
-          mkdir -p certs
-          curl -o ./certs/DigiCertGlobalRootCA.crt.pem https://cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+      
+      # Step 4: Import Database
+      - name: Import MySQL Database
+        env:
+          MYSQL_HOST: agenda-server.mysql.database.azure.com
+          MYSQL_USER: cnvjhyjscs@agenda-server.mysql.database.azure.com
+          MYSQL_PASSWORD: ${{ secrets.AZURE_MYSQL_PASSWORD }}
+          MYSQL_DATABASE: agenda-database
+        run: |
+          mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < ./agenda_app.sql
+
+      # Step 5: Validate Import
+      - name: Validate Database Import
+        env:
+          MYSQL_HOST: agenda-server.mysql.database.azure.com
+          MYSQL_USER: cnvjhyjscs@agenda-server.mysql.database.azure.com
+          MYSQL_PASSWORD: ${{ secrets.AZURE_MYSQL_PASSWORD }}
+          MYSQL_DATABASE: agenda-database
+        run: |
+          mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW TABLES;" $MYSQL_DATABASE
 
             
       # Step 5: Deploy App Service Plan
