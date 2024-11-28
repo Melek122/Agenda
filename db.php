@@ -12,7 +12,7 @@ $options = [
 
 try {
     // Create a new PDO instance
-    $pdo = new PDO($dsn, $user, $pass);
+    $pdo = new PDO($dsn, $user, $pass, $options);
     
     // Set the PDO error mode to exception
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
