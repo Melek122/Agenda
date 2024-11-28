@@ -5,8 +5,10 @@ $host = 'agenda-server.mysql.database.azure.com';  // Fully qualified domain nam
 $dbname = 'agenda-database';  // Replace with your actual database name
 $user = 'fbwgcxxxjl';  // Include @servername for Azure MySQL username
 $pass = 'Test123+';  // Your Azure MySQL password
-
 $dsn = "mysql:host=$host;dbname=$dbname;port=3306"; 
+$options = [
+    PDO::MYSQL_ATTR_SSL_CA => 'DigiCertGlobalRootG2.crt.pem', // Path to SSL certificate
+];
 
 try {
     // Create a new PDO instance
