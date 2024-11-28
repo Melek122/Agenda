@@ -7,7 +7,7 @@ $user = 'fbwgcxxxjl@agenda-server';  // Include @servername for Azure MySQL user
 $pass = 'Test123+';  // Your Azure MySQL password
 $dsn = "mysql:host=$host;dbname=$dbname;port=3306"; 
 $options = [
-    PDO::MYSQL_ATTR_SSL_CA => 'DigiCertGlobalRootG2.crt.pem', // Path to SSL certificate
+    PDO::MYSQL_ATTR_SSL_CA => 'BaltimoreCyberTrustRoot.crt.pem', // Path to SSL certificate
 ];
 
 try {
