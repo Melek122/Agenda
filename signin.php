@@ -1,33 +1,30 @@
-
-
 <?php
-// Inclure la connexion à la base de données
+session_start();  // Start the session at the top
 require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Récupérer les données du formulaire
-    $email = $_POST['email'];
+    $email = htmlspecialchars($_POST['email']);
     $password = $_POST['password'];
 
-    // Vérifier si l'email existe dans la base de données
+    // Query to check if the email exists in the database
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        // Connexion réussie, démarrer la session
-        session_start();
+        // Successful login: set session variables
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['email'] = $user['email'];
 
-        // Rediriger vers le tableau de bord
+        // Redirect to the dashboard (index.php)
         header('Location: index.php');
-        exit; // Important de quitter le script après une redirection
+        exit; // Make sure the script stops here after redirection
     } else {
         echo "<p class='error'>E-mail ou mot de passe incorrect.</p>";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
