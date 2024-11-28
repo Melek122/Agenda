@@ -6,19 +6,19 @@ require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Récupérer les données du formulaire
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Vérifier si l'username existe dans la base de données
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-    $stmt->execute(['username' => $username]);
+    // Vérifier si l'email existe dans la base de données
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
         // Connexion réussie, démarrer la session
         session_start();
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
+        $_SESSION['email'] = $user['email'];
 
         // Rediriger vers le tableau de bord
         header('Location: index.php');
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #333;
         }
 
-        input[type="username"],
+        input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 15px;
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transition: border-color 0.3s;
         }
 
-        input[type="username"]:focus,
+        input[type="email"]:focus,
         input[type="password"]:focus {
             border-color: #0066cc;
             outline: none;
@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-container">
             <h2>Se connecter</h2>
             <form action="signin.php" method="POST">
-                <input type="username" name="username" placeholder="E-mail" required><br>
+                <input type="email" name="email" placeholder="E-mail" required><br>
                 <input type="password" name="password" placeholder="Mot de passe" required><br>
                 <button type="submit">Se connecter</button>
             </form>
