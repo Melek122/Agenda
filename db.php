@@ -3,7 +3,7 @@
 
 $host = 'agenda-server.mysql.database.azure.com';  // Fully qualified domain name of your MySQL server
 $dbname = 'agenda-database';  // Replace with your actual database name
-$user = 'agenda-server.mysql.database.azure.com@fbwgcxxxjl';  // Include @servername for Azure MySQL username
+$user = 'fbwgcxxxjl';  // Include @servername for Azure MySQL username
 $pass = 'Test123+';  // Your Azure MySQL password
 
 $dsn = "mysql:host=$host;dbname=$dbname;port=3306"; 
