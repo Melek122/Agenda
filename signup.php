@@ -1,7 +1,7 @@
 
 <?php
 $host = 'agenda-server.mysql.database.azure.com';
-$dbname = 'agenda_app';
+$dbname = 'agenda_database';
 $username = 'fbwgcxxxjl';
 $password = 'Test123+';
 
