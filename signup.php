@@ -1,24 +1,43 @@
 
 <?php
-require 'db.php';
+$host = 'agenda-server.mysql.database.azure.com';
+$dbname = 'agenda_app';
+$username = 'fbwgcxxxjl';
+$password = 'Test123+';
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    // Sanitize and validate user input
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<p class='error'>L'e-mail n'est pas valide.</p>";
+        exit;
+    }
+
+    // Hash the password before inserting
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    // Vérifier si l'email existe déjà
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    $count = $stmt->fetchColumn();
+    try {
+        // Vérifier si l'email existe déjà dans la base de données
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $count = $stmt->fetchColumn();
 
-    if ($count > 0) {
-        echo "<p class='error'>Cet e-mail est déjà utilisé. Veuillez en choisir un autre.</p>";
-    } else {
-        // Insérer l'utilisateur dans la base de données
-        $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
-        $stmt->execute(['email' => $email, 'password' => $password]);
-        header('Location: signin.php');
-        exit; // Assurez-vous de quitter le script après la redirection
+        if ($count > 0) {
+            // If the email is already in use, show an error
+            echo "<p class='error'>Cet e-mail est déjà utilisé. Veuillez en choisir un autre.</p>";
+        } else {
+            // If email is not in use, insert the new user
+            $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+            $stmt->execute(['email' => $email, 'password' => $password]);
+
+            // Redirect the user to the sign-in page after successful registration
+            header('Location: signin.php');
+            exit; // Ensure the script stops after redirection
+        }
+    } catch (PDOException $e) {
+        // Catch any errors that occur during the database interaction
+        echo "<p class='error'>Une erreur est survenue lors de l'inscription : " . $e->getMessage() . "</p>";
     }
 }
 ?>
