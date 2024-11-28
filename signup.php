@@ -1,9 +1,7 @@
 
 <?php
-$host = 'agenda-server.mysql.database.azure.com';
-$dbname = 'agenda-database';
-$username = 'agenda-server.mysql.database.azure.com@fbwgcxxxjl';
-$password = 'Test123+';
+session_start();
+require 'db.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
