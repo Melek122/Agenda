@@ -1,29 +1,29 @@
 <?php
-// db.php for Azure MySQL Database
+// db.php for Azure MySQL Database (without SSL)
 
 $host = 'agenda-server.mysql.database.azure.com';  // Fully qualified domain name of your MySQL server
 $dbname = 'agenda-database';  // Replace with your actual database name
-$user = 'fbwgcxxxjl';  // Include @servername for Azure MySQL username
+$user = 'fbwgcxxxjl@agenda-server';  // Azure MySQL username (with @servername)
 $pass = 'Test123+';  // Your Azure MySQL password
-$dsn = "mysql:host=$host;dbname=$dbname;port=3306"; 
 
+// DSN (Data Source Name)
+$dsn = "mysql:host=$host;dbname=$dbname;port=3306;charset=utf8mb4";
+
+// PDO options
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,  // Throw exceptions on errors
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,  // Fetch results as associative arrays
+];
 
 try {
     // Create a new PDO instance
     $pdo = new PDO($dsn, $user, $pass, $options);
-    
-    // Set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // You can add additional settings here, like setting charset
-    $pdo->exec("SET NAMES utf8mb4");
 
-    // Uncomment for debugging
-    // echo "Connected successfully"; 
+    // Test the connection (optional)
+    echo "Connected successfully without SSL!";
 
 } catch (PDOException $e) {
     // If the connection fails, show an error message
     echo "Connection failed: " . $e->getMessage();
-    exit();  // Make sure the script stops if the connection fails
+    exit();  // Stop script execution on connection failure
 }
-?>
