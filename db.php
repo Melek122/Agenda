@@ -2,7 +2,7 @@
 // db.php for Azure MySQL Database (without SSL)
 
 $host = 'agenda-server.mysql.database.azure.com';  // Fully qualified domain name of your MySQL server
-$dbname = 'agenda-database';  
+$dbname = 'agenda_app';  
 $user = 'fbwgcxxxjl@agenda-server.mysql.database.azure.com';  // Include @servername for Azure MySQL username
 $pass = 'Test123+';  // Your Azure MySQL password
 
