@@ -27,4 +27,3 @@ try {
     exit();  // Make sure the script stops if the connection fails
 }
 ?>
-?>
