@@ -1,19 +1,22 @@
 <?php
-// Include the database connection file
+// Include the database connection
 require_once 'db.php';  // Make sure the path to db.php is correct
 
-// Assuming you have a signup form that sends a POST request
+// Check if the form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Example: get the form values
+    // Sanitize and get the form data
     $email = mysqli_real_escape_string($con, $_POST['email']);
     $password = mysqli_real_escape_string($con, $_POST['password']);
 
-    // Insert query to add user into the database
-    $query = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
+    // Hash the password before saving it (for security reasons)
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // SQL query to insert the new user into the database
+    $query = "INSERT INTO users (email, password) VALUES ('$email', '$hashedPassword')";
 
     // Execute the query
     if (mysqli_query($con, $query)) {
-        echo "User added successfully!";
+        echo "User successfully registered!";
     } else {
         echo "Error: " . mysqli_error($con);
     }
