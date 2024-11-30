@@ -6,7 +6,7 @@ $host = 'agenda-app-server.mysql.database.azure.com';
 $user = 'ddhquucrom';
 $pass = 'Test123+';
 $dbname = 'agenda-app-database';
-$sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootCA.crt.pem'; // Path to SSL cert
+$sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootG2.crt.pem'; // Path to SSL cert
 
 // Initialize MySQLi
 $con = mysqli_init();
