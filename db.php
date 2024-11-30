@@ -2,10 +2,10 @@
 // db.php with SSL
 
 // Fetch database connection details from environment variables or hardcoded values for testing
-$host = getenv('DB_HOST') ?: 'mydemoserver.mysql.database.azure.com';
-$dbname = getenv('DB_NAME') ?: 'databasename';
-$user = getenv('DB_USER') ?: 'myadmin';
-$pass = getenv('DB_PASS') ?: 'yourpassword';
+$host = getenv('DB_HOST') ?: 'agenda-app-akfhgecxbdecc7a8.northeurope-01.azurewebsites.net';
+$dbname = getenv('DB_NAME') ?: 'agenda-app-database';
+$user = getenv('DB_USER') ?: 'ddhquucrom';
+$pass = getenv('DB_PASS') ?: 'Test123+';
 
 // Path to the SSL certificate
 $sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootG2.crt.pem'; // Adjust to the actual location on your server
