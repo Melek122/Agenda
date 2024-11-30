@@ -1,18 +1,27 @@
 <?php
-// db.php for Azure MySQL Database
+// db.php with SSL
 
-// Fetch database connection details from environment variables
-$host = getenv('DB_HOST') ?: 'agenda-app-server.mysql.database.azure.com';
-$dbname = getenv('DB_NAME') ?: 'agenda-app-database';
-$user = getenv('DB_USER') ?: 'ddhquucrom';
-$pass = getenv('DB_PASS') ?: 'Test123+';
+// Fetch database connection details from environment variables or hardcoded values for testing
+$host = getenv('DB_HOST') ?: 'mydemoserver.mysql.database.azure.com';
+$dbname = getenv('DB_NAME') ?: 'databasename';
+$user = getenv('DB_USER') ?: 'myadmin';
+$pass = getenv('DB_PASS') ?: 'yourpassword';
+
+// Path to the SSL certificate
+$sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootCA.crt.pem'; // Adjust to the actual location on your server
+
+// PDO options, including SSL configuration
+$options = array(
+    PDO::MYSQL_ATTR_SSL_CA => $sslCertPath,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Enable exception mode for errors
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Optional: set default fetch mode
+);
 
 try {
-    // Initialize PDO with the database connection
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Initialize the PDO connection
+    $pdo = new PDO("mysql:host=$host;port=3306;dbname=$dbname;charset=utf8mb4", $user, $pass, $options);
+    echo "Database connection successful!";
 } catch (PDOException $e) {
-    // Output an error message if the connection fails
     die("Database connection failed: " . $e->getMessage());
 }
 ?>
