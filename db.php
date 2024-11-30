@@ -1,5 +1,5 @@
 <?php
-// MySQLi connection without SSL verification
+// MySQLi connection with SSL, but without certificate verification
 
 // Database connection details
 $host = 'agenda-app-server.mysql.database.azure.com';
@@ -10,11 +10,11 @@ $dbname = 'agenda-app-database';
 // Initialize MySQLi
 $con = mysqli_init();
 
-// Skip SSL certificate verification
+// Use SSL, but skip server certificate verification
 mysqli_ssl_set($con, NULL, NULL, NULL, NULL, NULL);
 
-// Attempt to connect without verifying the server certificate
-if (!mysqli_real_connect($con, $host, $user, $pass, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT)) {
+// Attempt to connect using SSL
+if (!mysqli_real_connect($con, $host, $user, $pass, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL)) {
     die("Database connection failed: " . mysqli_connect_error());
 } else {
     echo "Database connection successful!";
