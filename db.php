@@ -8,7 +8,7 @@ $user = getenv('DB_USER') ?: 'myadmin';
 $pass = getenv('DB_PASS') ?: 'yourpassword';
 
 // Path to the SSL certificate
-$sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootCA.crt.pem'; // Adjust to the actual location on your server
+$sslCertPath = '/home/site/wwwroot/DigiCertGlobalRootG2.crt.pem'; // Adjust to the actual location on your server
 
 // PDO options, including SSL configuration
 $options = array(
