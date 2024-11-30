@@ -1,21 +1,32 @@
 <?php
 session_start();
-require 'db.php';
+
+// Include the database connection file (assuming db.php contains MySQLi connection setup)
+require_once 'db.php'; // Include the MySQLi connection file
+
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: signin.php');
+    header('Location: signin.php'); // Redirect to signin page if user is not logged in
     exit();
 }
 
-
-
-
-
+// Get the user_id from the session
 $user_id = $_SESSION['user_id'];
 
-// Fetch user events
-$stmt = $pdo->prepare("SELECT * FROM events WHERE user_id = :user_id ORDER BY event_date");
-$stmt->execute(['user_id' => $user_id]);
-$events = $stmt->fetchAll();
+// Query to fetch user events from the database using MySQLi
+$query = "SELECT * FROM events WHERE user_id = ? ORDER BY event_date";
+$stmt = $con->prepare($query);
+$stmt->bind_param("i", $user_id); // Bind user_id as an integer
+$stmt->execute();
+
+// Get the results
+$result = $stmt->get_result();
+
+// Fetch all the events
+$events = $result->fetch_all(MYSQLI_ASSOC);
+
+// Close the statement
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +134,8 @@ $events = $stmt->fetchAll();
     <div class="container">
         <h2>Your Agenda</h2>
 
-        <a href="add_event.php" class="btn btn-primary">Add New Event</a> <!-- Link to add new event -->
+        <!-- Button to add new event -->
+        <a href="add_event.php" class="btn btn-primary">Add New Event</a>
 
         <h3 class="text-center">Events Calendar</h3>
         <table class="table table-bordered">
@@ -135,19 +147,25 @@ $events = $stmt->fetchAll();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($events as $event): ?>
+                <?php if ($events): ?>
+                    <?php foreach ($events as $event): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($event['title']); ?></td>
+                            <td><?php echo htmlspecialchars($event['event_date']); ?></td>
+                            <td><?php echo htmlspecialchars($event['description']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($event['title']); ?></td>
-                        <td><?php echo htmlspecialchars($event['event_date']); ?></td>
-                        <td><?php echo htmlspecialchars($event['description']); ?></td>
+                        <td colspan="3">No events found</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
 
         <!-- Sign Out Button below the table -->
         <div class="sign-out-btn">
-            <a href="logout.php" class="btn btn-primary">Sign Out</a>
+            <a href="logout.php" class="btn btn-danger">Sign Out</a>
         </div>
     </div>
 
