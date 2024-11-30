@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<p class='error'>L'e-mail n'est pas valide.</p>";
-        exit;
+        exit();
     }
 
     // Hash the password before inserting
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirect the user to the sign-in page after successful registration
             header('Location: signin.php');
-            exit; // Ensure the script stops after redirection
+            exit(); // Ensure the script stops after redirection
         }
     } catch (PDOException $e) {
         // Catch any errors that occur during the database interaction
