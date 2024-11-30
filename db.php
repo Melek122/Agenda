@@ -19,4 +19,14 @@ if (!mysqli_real_connect($con, $host, $user, $pass, $dbname, 3306, NULL, MYSQLI_
 } else {
     echo "Database connection successful!";
 }
+try {
+    // Create the PDO instance
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+    
+    // Set PDO attributes
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
+}
 ?>
