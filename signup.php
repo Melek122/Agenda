@@ -1,33 +1,25 @@
 <?php
-// db.php with PDO connection (ensure this is included at the top of signup.php)
+// Include the database connection file
+require_once 'db.php';  // Make sure the path to db.php is correct
 
-// Include the database connection file (assuming the db.php file is included here)
-require_once 'db.php'; // Make sure the correct path to db.php is used
+// Assuming you have a signup form that sends a POST request
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Example: get the form values
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $password = mysqli_real_escape_string($con, $_POST['password']);
 
-// PDO should be initialized from db.php
+    // Insert query to add user into the database
+    $query = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
 
-// After db.php includes, you can use $pdo directly
-if ($pdo === null) {
-    die('Error: Unable to connect to the database.');
-}
-
-// Example of using the PDO object to prepare a statement
-try {
-    // For example, you might want to insert user data into the database
-    $stmt = $pdo->prepare('INSERT INTO users (username, password) VALUES (:username, :password)');
-
-    // Bind parameters (you'll get data from a form, for example)
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password);
-
-    // Execute the statement
-    $stmt->execute();
-
-    echo "User has been successfully added!";
-} catch (Exception $e) {
-    die("Error: " . $e->getMessage());
+    // Execute the query
+    if (mysqli_query($con, $query)) {
+        echo "User added successfully!";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
