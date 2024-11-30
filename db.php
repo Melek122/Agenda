@@ -16,7 +16,5 @@ mysqli_ssl_set($con, NULL, NULL, NULL, NULL, NULL);
 // Attempt to connect using SSL
 if (!mysqli_real_connect($con, $host, $user, $pass, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL)) {
     die("Database connection failed: " . mysqli_connect_error());
-} else {
-    echo "Database connection successful!";
 }
 ?>
