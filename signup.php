@@ -1,43 +1,31 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-require 'db.php';
+// db.php with PDO connection (ensure this is included at the top of signup.php)
 
+// Include the database connection file (assuming the db.php file is included here)
+require_once 'db.php'; // Make sure the correct path to db.php is used
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and validate user input
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<p class='error'>L'e-mail n'est pas valide.</p>";
-        exit();
-    }
+// PDO should be initialized from db.php
 
-    // Hash the password before inserting
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+// After db.php includes, you can use $pdo directly
+if ($pdo === null) {
+    die('Error: Unable to connect to the database.');
+}
 
-    try {
-        // Vérifier si l'email existe déjà dans la base de données
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        $count = $stmt->fetchColumn();
+// Example of using the PDO object to prepare a statement
+try {
+    // For example, you might want to insert user data into the database
+    $stmt = $pdo->prepare('INSERT INTO users (username, password) VALUES (:username, :password)');
 
-        if ($count > 0) {
-            // If the email is already in use, show an error
-            echo "<p class='error'>Cet e-mail est déjà utilisé. Veuillez en choisir un autre.</p>";
-        } else {
-            // If email is not in use, insert the new user
-            $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
-            $stmt->execute(['email' => $email, 'password' => $password]);
+    // Bind parameters (you'll get data from a form, for example)
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $password);
 
-            // Redirect the user to the sign-in page after successful registration
-            header('Location: signin.php');
-            exit(); // Ensure the script stops after redirection
-        }
-    } catch (PDOException $e) {
-        // Catch any errors that occur during the database interaction
-        echo "<p class='error'>Une erreur est survenue lors de l'inscription : " . $e->getMessage() . "</p>";
-    }
+    // Execute the statement
+    $stmt->execute();
+
+    echo "User has been successfully added!";
+} catch (Exception $e) {
+    die("Error: " . $e->getMessage());
 }
 ?>
 
