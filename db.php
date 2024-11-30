@@ -5,7 +5,7 @@
 $host = 'agenda-app-server.mysql.database.azure.com';
 $user = 'ddhquucrom';
 $pass = 'Test123+';
-$dbname = 'agenda-app-database';
+$dbname = 'agenda_app';
 
 // Initialize MySQLi
 $con = mysqli_init();
