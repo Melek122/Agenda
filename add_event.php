@@ -1,49 +1,43 @@
 <?php
 session_start();
-require 'db.php'; // Include the database connection file
+require 'db.php';  // Include database connection file
 
-// Check if the user is logged in; if not, redirect to signin.php
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.php');
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];  // Get the user ID from the session
 
-// Handle adding new events when the form is submitted
+// Handle adding new events when form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the form data and sanitize it
-    $title = mysqli_real_escape_string($con, $_POST['title']);
-    $description = mysqli_real_escape_string($con, $_POST['description']);
-    $event_date = $_POST['event_date']; // Assuming 'event_date' is in a valid format (YYYY-MM-DD)
+    $title = mysqli_real_escape_string($con, $_POST['title']);  // Sanitize title input
+    $description = mysqli_real_escape_string($con, $_POST['description']);  // Sanitize description input
+    $event_date = $_POST['event_date'];  // Get event date from form
 
-    // Prepare the SQL query to insert the new event into the database
-    $stmt = $pdo->prepare("INSERT INTO events (user_id, title, description, event_date) VALUES (:user_id, :title, :description, :event_date)");
+    // Insert event into the database
+    $sql = "INSERT INTO events (user_id, title, description, event_date) VALUES ('$user_id', '$title', '$description', '$event_date')";
 
-    // Execute the query with the provided values
-    $stmt->execute([
-        'user_id' => $user_id, 
-        'title' => $title, 
-        'description' => $description, 
-        'event_date' => $event_date
-    ]);
-
-    // Redirect the user back to the main page (index.php) after successfully adding the event
-    header('Location: index.php');
-    exit();
+    // Execute the query
+    if ($con->query($sql) === TRUE) {
+        // If insertion is successful, redirect to index.php
+        header('Location: index.php');
+        exit();
+    } else {
+        // If there is an error in the insertion, show an error message
+        echo "Error: " . $sql . "<br>" . $con->error;
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Event</title>
+    <title>Add New Event</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
     <style>
-        /* Your existing styles here */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
@@ -149,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .form-group input::placeholder, .form-group textarea::placeholder {
             color: #aaa;
         }
-
     </style>
 </head>
 <body>
