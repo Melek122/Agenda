@@ -37,7 +37,6 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -45,14 +44,13 @@ if (isset($_POST['login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <style>
-        /* Reset de la marge et du padding pour tous les éléments */
+        /* Style for the form */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Corps de la page */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f7fc;
@@ -62,7 +60,6 @@ if (isset($_POST['login'])) {
             align-items: center;
         }
 
-        /* Conteneur avec deux sections */
         .container {
             display: flex;
             width: 80%;
@@ -71,7 +68,6 @@ if (isset($_POST['login'])) {
             overflow: hidden;
         }
 
-        /* Première partie - Formulaire de connexion */
         .form-container {
             background-color: white;
             padding: 40px;
@@ -136,7 +132,6 @@ if (isset($_POST['login'])) {
             margin-top: 20px;
         }
 
-        /* Deuxième partie - Note de bienvenue */
         .welcome-container {
             background-color: #0066cc;
             color: white;
@@ -196,12 +191,16 @@ if (isset($_POST['login'])) {
             <form action="signin.php" method="POST">
                 <input type="email" name="email" placeholder="E-mail" required><br>
                 <input type="password" name="password" placeholder="Mot de passe" required><br>
-                <button type="submit">Se connecter</button>
+                <button type="submit" name="login">Se connecter</button>
             </form>
+
+            <!-- Display error message -->
+            <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+
             <p>Pas encore de compte ? <a href="signup.php">Inscrivez-vous ici</a>.</p>
         </div>
 
-        <!-- Note de bienvenue -->
+        <!-- Welcome note -->
         <div class="welcome-container">
             <h3>Bienvenue dans l'Agenda !</h3>
             <p>Nous sommes ravis de vous accueillir ! Connectez-vous pour profiter d'une expérience organisée, où vous pouvez facilement gérer vos événements, tâches et rendez-vous.</p>
