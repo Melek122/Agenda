@@ -1,27 +1,63 @@
 <?php
-session_start();  // Start the session at the top
-require 'db.php';
+// Include the database connection file
+require_once 'db.php'; // Ensure db.php is included for the MySQLi connection
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = htmlspecialchars($_POST['email']);
-    $password = $_POST['password'];
+// Start the session
+session_start();
 
+// Handle the Sign-Up Process
+if (isset($_POST['signup'])) {
+    // Get the email and password from the form
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+    
+    // Check if the email already exists
+    $checkUserQuery = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($con, $checkUserQuery);
 
-    // Query to check if the email exists in the database
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        // Successful login: set session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['email'] = $user['email'];
-
-        // Redirect to the dashboard (index.php)
-        header('Location: index.php');
-        exit; // Make sure the script stops here after redirection
+    if (mysqli_num_rows($result) > 0) {
+        $error = "email already exists!";
     } else {
-        echo "<p class='error'>E-mail ou mot de passe incorrect.</p>";
+        // Hash the password before storing it
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        
+        // Insert the new user into the database
+        $insertUserQuery = "INSERT INTO users (email, password) VALUES ('$email', '$hashedPassword')";
+        
+        if (mysqli_query($con, $insertUserQuery)) {
+            $success = "User registered successfully!";
+        } else {
+            $error = "Error registering user: " . mysqli_error($con);
+        }
+    }
+}
+
+// Handle the Sign-In Process
+if (isset($_POST['login'])) {
+    // Get the email and password from the form
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $password = mysqli_real_escape_string($con, $_POST['password']);
+    
+    // Check if the email exists in the database
+    $checkUserQuery = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($con, $checkUserQuery);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Fetch the user record
+        $user = mysqli_fetch_assoc($result);
+        
+        // Verify the password
+        if (password_verify($password, $user['password'])) {
+            // Set session variables and redirect to dashboard or home page
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
+            header("Location: dashboard.php"); // Redirect to dashboard (or home page)
+            exit();
+        } else {
+            $error = "Incorrect password!";
+        }
+    } else {
+        $error = "email not found!";
     }
 }
 ?>
