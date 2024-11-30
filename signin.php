@@ -4,6 +4,7 @@ require_once 'db.php'; // Ensure db.php is included for the MySQLi connection
 
 // Start the session
 session_start();
+
 // Handle the Sign-In Process
 if (isset($_POST['login'])) {
     // Get the email and password from the form
@@ -20,16 +21,18 @@ if (isset($_POST['login'])) {
         
         // Verify the password
         if (password_verify($password, $user['password'])) {
-            // Set session variables and redirect to dashboard or home page
+            // Set session variables and redirect to index page
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            header("Location: index.php"); // Redirect to dashboard (or home page)
+            header("Location: index.php"); // Redirect to the main page (index.php)
             exit();
         } else {
+            // If password is incorrect
             $error = "Incorrect password!";
         }
     } else {
-        $error = "email not found!";
+        // If email not found
+        $error = "Email not found!";
     }
 }
 ?>
