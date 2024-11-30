@@ -4,34 +4,6 @@ require_once 'db.php'; // Ensure db.php is included for the MySQLi connection
 
 // Start the session
 session_start();
-
-// Handle the Sign-Up Process
-if (isset($_POST['signup'])) {
-    // Get the email and password from the form
-    $email = mysqli_real_escape_string($con, $_POST['email']);
-    $password = mysqli_real_escape_string($con, $_POST['password']);
-    
-    // Check if the email already exists
-    $checkUserQuery = "SELECT * FROM users WHERE email = '$email'";
-    $result = mysqli_query($con, $checkUserQuery);
-
-    if (mysqli_num_rows($result) > 0) {
-        $error = "email already exists!";
-    } else {
-        // Hash the password before storing it
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        
-        // Insert the new user into the database
-        $insertUserQuery = "INSERT INTO users (email, password) VALUES ('$email', '$hashedPassword')";
-        
-        if (mysqli_query($con, $insertUserQuery)) {
-            $success = "User registered successfully!";
-        } else {
-            $error = "Error registering user: " . mysqli_error($con);
-        }
-    }
-}
-
 // Handle the Sign-In Process
 if (isset($_POST['login'])) {
     // Get the email and password from the form
@@ -51,7 +23,7 @@ if (isset($_POST['login'])) {
             // Set session variables and redirect to dashboard or home page
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            header("Location: dashboard.php"); // Redirect to dashboard (or home page)
+            header("Location: index.php"); // Redirect to dashboard (or home page)
             exit();
         } else {
             $error = "Incorrect password!";
