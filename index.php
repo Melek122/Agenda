@@ -18,10 +18,11 @@ $sort_order = isset($_GET['order']) ? $_GET['order'] : 'ASC'; // Default order i
 
 // Modify the query to include search and sorting functionality
 $query = "
-    SELECT e.*, GROUP_CONCAT(t.tag_name ORDER BY t.tag_name ASC) AS tags
+    SELECT e.*, GROUP_CONCAT(t.tag_name ORDER BY t.tag_name ASC) AS tags, c.name AS category
     FROM events e
     LEFT JOIN event_tags et ON e.id = et.event_id
     LEFT JOIN tags t ON et.tag_id = t.id
+    LEFT JOIN categories c ON e.category_id = c.id
     WHERE e.user_id = ? AND (e.title LIKE ? OR e.event_date LIKE ?)
     GROUP BY e.id
     ORDER BY $sort_option $sort_order
@@ -211,6 +212,7 @@ $stmt->close();
                     <th>Date</th>
                     <th>Description</th>
                     <th>Tags</th>
+                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -222,9 +224,8 @@ $stmt->close();
                             <td><?php echo htmlspecialchars($event['title']); ?></td>
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
-                            <td>
-                                <?php echo htmlspecialchars($event['tags']); ?>
-                            </td>
+                            <td><?php echo htmlspecialchars($event['tags']); ?></td>
+                            <td><?php echo htmlspecialchars($event['category']); ?></td>
                             <td>
                                 <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-edit btn-sm">Edit</a>
                                 <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
@@ -233,7 +234,7 @@ $stmt->close();
                     <?php endforeach; ?>
                 <?php else : ?>
                     <tr>
-                        <td colspan="5">No events found.</td>
+                        <td colspan="6">No events found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -241,4 +242,3 @@ $stmt->close();
     </div>
 </body>
 </html>
-
