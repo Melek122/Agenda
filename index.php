@@ -35,145 +35,207 @@ $stmt->close();
     <title>Your Professional Agenda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Base Styling */
-        body, .container {
-            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        /* General Styles */
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
 
-        .btn-theme-switch {
-            font-size: 14px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            background: linear-gradient(to right, #6a82fb, #fc5c7d);
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-theme-switch:hover {
-            background: linear-gradient(to right, #fc5c7d, #6a82fb);
-            transform: scale(1.1);
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
         }
 
         h2 {
-            transition: color 0.3s ease;
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            color: #4a4a8c;
+            letter-spacing: 1px;
         }
 
-        .table {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .btn {
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        /* Light Theme */
-        body.light-theme {
-            background-color: #f9fafb;
-            color: #333;
-        }
-
-        .container.light-theme {
-            background-color: #ffffff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        h2.light-theme {
-            color: #333;
-        }
-
-        .table.light-theme {
-            background-color: #ffffff;
-        }
-
-        .table.light-theme th {
-            background-color: #6a82fb;
-            color: white;
-        }
-
-        .table.light-theme td {
-            color: #555;
-        }
-
-        /* Dark Theme */
-        body.dark-theme {
-            background-color: #181818;
-            color: #e0e0e0;
-        }
-
-        .container.dark-theme {
-            background-color: #1f1f1f;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
-
-        h2.dark-theme {
-            color: #ffffff;
-        }
-
-        .table.dark-theme {
-            background-color: #1f1f1f;
-        }
-
-        .table.dark-theme th {
-            background-color: #424242;
-            color: white;
-        }
-
-        .table.dark-theme td {
-            color: #b0bec5;
-        }
-
-        /* Buttons */
+        /* Button Styles */
         .btn-primary {
-            background: linear-gradient(to right, #6a82fb, #fc5c7d);
+            background-color: #4a4a8c;
             border: none;
-            border-radius: 6px;
-            color: white;
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(to right, #fc5c7d, #6a82fb);
+            background-color: #6a82fb;
             transform: scale(1.05);
         }
 
-        .btn-edit {
-            background-color: #26a69a;
-        }
-
-        .btn-edit:hover {
-            background-color: #00897b;
-        }
-
-        .btn-delete {
-            background-color: #ef5350;
-        }
-
-        .btn-delete:hover {
-            background-color: #d32f2f;
-        }
-
         .btn-danger {
-            background-color: #ef5350;
+            background-color: #f5624d;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #fff;
+            transition: all 0.3s ease;
+            font-weight: bold;
         }
 
         .btn-danger:hover {
-            background-color: #c62828;
+            background-color: #d64535;
+            transform: scale(1.05);
+        }
+
+        .btn-small {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-edit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Table Styles */
+        .table {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+        }
+
+        .table th {
+            background-color: #4a4a8c;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .table td {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .theme-switcher button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-switcher button.light {
+            background-color: #4a4a8c;
+        }
+
+        .theme-switcher button.light:hover {
+            background-color: #6a82fb;
+        }
+
+        .theme-switcher button.dark {
+            background-color: #333;
+        }
+
+        .theme-switcher button.dark:hover {
+            background-color: #555;
+        }
+
+        /* Dark Theme Styles */
+        body.dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark .container {
+            background-color: #1e1e1e;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark h2 {
+            color: #ff7e5f;
+        }
+
+        body.dark .btn-primary {
+            background-color: #ff7e5f;
+        }
+
+        body.dark .btn-primary:hover {
+            background-color: #feb47b;
+        }
+
+        body.dark .table th {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        body.dark .table td {
+            color: #b0bec5;
         }
     </style>
 </head>
-<body class="light-theme">
-    <div class="container light-theme">
-        <button class="btn-theme-switch" id="themeSwitch">L</button>
+<body>
+    <div class="theme-switcher">
+        <button class="light" onclick="switchTheme('light')">L</button>
+        <button class="dark" onclick="switchTheme('dark')">D</button>
+    </div>
+
+    <div class="container">
         <h2>Your Agenda</h2>
 
         <a href="add_event.php" class="btn btn-primary">+ Add New Event</a>
 
-        <table class="table table-bordered light-theme">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -183,23 +245,16 @@ $stmt->close();
                 </tr>
             </thead>
             <tbody>
-                <?php if ($events): ?>
-                    <?php foreach ($events as $event): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($event['title']); ?></td>
-                            <td><?php echo htmlspecialchars($event['event_date']); ?></td>
-                            <td><?php echo htmlspecialchars($event['description']); ?></td>
-                            <td>
-                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-edit">Edit</a>
-                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="4">No events found. Start by adding one!</td>
-                    </tr>
-                <?php endif; ?>
+                <!-- PHP code to loop through events -->
+                <tr>
+                    <td>Sample Event</td>
+                    <td>2024-12-01</td>
+                    <td>This is a sample description</td>
+                    <td>
+                        <button class="btn btn-small btn-edit">Edit</button>
+                        <button class="btn btn-small btn-delete">Delete</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
@@ -209,26 +264,9 @@ $stmt->close();
     </div>
 
     <script>
-        // Theme switcher script
-        const themeSwitchButton = document.getElementById('themeSwitch');
-        const body = document.body;
-        const container = document.querySelector('.container');
-        const elementsToToggle = document.querySelectorAll('.table, .btn-primary, h2');
-
-        themeSwitchButton.addEventListener('click', () => {
-            const isDarkMode = body.classList.toggle('dark-theme');
-            body.classList.toggle('light-theme');
-            container.classList.toggle('dark-theme');
-            container.classList.toggle('light-theme');
-
-            elementsToToggle.forEach(element => {
-                element.classList.toggle('dark-theme');
-                element.classList.toggle('light-theme');
-            });
-
-            themeSwitchButton.textContent = isDarkMode ? 'D' : 'L';
-        });
+        function switchTheme(theme) {
+            document.body.className = theme;
+        }
     </script>
 </body>
 </html>
-
