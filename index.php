@@ -46,6 +46,7 @@ $stmt->close();
             align-items: center;
             height: 100vh;
             color: #333;
+            transition: all 0.3s ease;
         }
 
         .container {
@@ -55,6 +56,7 @@ $stmt->close();
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
+            transition: all 0.3s ease;
         }
 
         h2 {
@@ -99,6 +101,35 @@ $stmt->close();
             transform: scale(1.05);
         }
 
+        .btn-small {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-edit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
         /* Table Styles */
         .table {
             margin-top: 20px;
@@ -131,9 +162,81 @@ $stmt->close();
             text-align: center;
         }
 
+        /* Theme Switcher */
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .theme-switcher button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-switcher button.light {
+            background-color: #4a4a8c;
+        }
+
+        .theme-switcher button.light:hover {
+            background-color: #6a82fb;
+        }
+
+        .theme-switcher button.dark {
+            background-color: #333;
+        }
+
+        .theme-switcher button.dark:hover {
+            background-color: #555;
+        }
+
+        /* Dark Theme Styles */
+        body.dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark .container {
+            background-color: #1e1e1e;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark h2 {
+            color: #ff7e5f;
+        }
+
+        body.dark .btn-primary {
+            background-color: #ff7e5f;
+        }
+
+        body.dark .btn-primary:hover {
+            background-color: #feb47b;
+        }
+
+        body.dark .table th {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        body.dark .table td {
+            color: #b0bec5;
+        }
     </style>
 </head>
 <body>
+    <div class="theme-switcher">
+        <button class="light" onclick="switchTheme('light')">L</button>
+        <button class="dark" onclick="switchTheme('dark')">D</button>
+    </div>
+
     <div class="container">
         <h2>Your Agenda</h2>
 
@@ -178,5 +281,10 @@ $stmt->close();
         </div>
     </div>
 
+    <script>
+        function switchTheme(theme) {
+            document.body.className = theme;
+        }
+    </script>
 </body>
 </html>
