@@ -48,18 +48,19 @@ $stmt->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* General Styles */
         body {
-            background-color: #1E1E2A; /* Dark background */
-            font-family: 'Circe', sans-serif; /* New font */
+            background-color: #E9E9EB; /* Light gray background */
+            font-family: 'Circe', sans-serif; /* Circe font */
             margin: 0;
             padding: 0;
-            color: #FFFFFF; /* White text color */
+            color: #43506C; /* Primary text color */
         }
 
         .container {
-            background-color: #302E3B; /* Main container background */
+            background-color: #ffffff;
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -74,29 +75,28 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #FFFFFF; /* White title */
+            color: #43506C; /* Dark blue for the title */
             letter-spacing: 1px;
         }
 
         /* Button Styles */
         .btn-primary {
-            background-color: #44404D; /* Darker gray button */
+            background-color: #3D619B; /* Deep blue for primary buttons */
             border: none;
             border-radius: 8px;
-            color: #FFFFFF;
+            color: #fff;
             padding: 10px 20px;
             transition: all 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .btn-primary:hover {
-            background-color: #797993; /* Hover gray-purple */
+            background-color: #EF4B4C; /* Red hover effect */
             transform: scale(1.05);
         }
 
         .btn-edit {
-            background-color: #48484B;  /* Neutral gray */
+            background-color: #43506C;  /* Matching the palette */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -106,29 +106,29 @@ $stmt->close();
         }
 
         .btn-edit:hover {
-            background-color: #797993;  /* Hover gray-purple */
+            background-color: #EF4B4C;  /* Hover effect */
             transform: translateY(-2px);
         }
 
         .btn-danger {
-            background-color: #797993;  /* Accent color */
+            background-color: #EF4B4C;  /* Red for delete buttons */
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
-            color: #FFFFFF;
+            color: #fff;
             transition: all 0.3s ease;
             font-weight: bold;
         }
 
         .btn-danger:hover {
-            background-color: #48484B;  /* Darker accent */
+            background-color: #43506C;  /* Hover effect */
             transform: scale(1.05);
         }
 
         /* Table Styles */
         .table {
             margin-top: 20px;
-            background-color: #302E3B; /* Table background */
+            background-color: #ffffff;
             border-collapse: collapse;
             border-radius: 12px;
             overflow: hidden;
@@ -141,7 +141,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #44404D; /* Header background */
+            background-color: #43506C; /* Dark blue for headers */
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -149,7 +149,7 @@ $stmt->close();
 
         .table td {
             font-size: 14px;
-            color: #FFFFFF; /* White text in table */
+            color: #43506C;
         }
 
         .logout-container {
@@ -158,7 +158,7 @@ $stmt->close();
         }
 
         .btn-logout {
-            background-color: #797993; /* Logout button color */
+            background-color: #EF4B4C; /* Red logout button */
             color: white;
             padding: 10px 20px;
             font-weight: bold;
@@ -167,28 +167,10 @@ $stmt->close();
         }
 
         .btn-logout:hover {
-            background-color: #48484B; /* Hover effect for logout */
+            background-color: #3D619B; /* Hover effect */
             transform: scale(1.05);
         }
-
-        input, select {
-            background-color: #302E3B; /* Input background */
-            color: #FFFFFF; /* Input text color */
-            border: 1px solid #44404D; /* Input border */
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        input::placeholder {
-            color: #797993; /* Placeholder color */
-        }
-
-        select {
-            appearance: none; /* Remove native dropdown styling */
-        }
     </style>
-    <!-- Include Circe Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
