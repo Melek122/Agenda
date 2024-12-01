@@ -192,19 +192,19 @@ if (isset($_POST['login'])) {
 <body>
     <div class="container">
         <div class="form-container">
-            <h2>Se connecter</h2>
+            <h2>Login</h2>
             <form action="signin.php" method="POST">
                 <input type="email" name="email" placeholder="E-mail" required><br>
                 <input type="password" name="password" placeholder="Mot de passe" required><br>
-                <button type="submit" name="login">Se connecter</button>
+                <button type="submit" name="login">Login</button>
             </form>
             <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-            <p>Pas encore de compte ? <a href="signup.php">Inscrivez-vous ici</a>.</p>
+            <p>Don't have an account yet ? <a href="signup.php">sign-up now</a>.</p>
         </div>
         <div class="welcome-container">
-            <h3>Bienvenue dans l'Agenda !</h3>
-            <p>Nous sommes ravis de vous accueillir ! Connectez-vous pour profiter d'une expérience organisée, où vous pouvez facilement gérer vos événements, tâches et rendez-vous.</p>
-            <button onclick="window.location.href='signup.php'">Créer un compte</button>
+            <h3>Welcome to the Agenda !</h3>
+            <p>Welcome to our web app! Log in to enjoy an organized experience where you can easily manage your events, tasks, and appointments.</p>
+            <button onclick="window.location.href='signup.php'">Sign-up Now</button>
         </div>
     </div>
 </body>
