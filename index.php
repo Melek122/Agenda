@@ -16,14 +16,14 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 $sort_option = isset($_GET['sort']) ? $_GET['sort'] : 'event_date'; // Default sort by event date
 $sort_order = isset($_GET['order']) ? $_GET['order'] : 'ASC'; // Default order is ascending
 
-// Modify the query to include search and sorting functionality
+// Modify the query to include search and sorting functionality, and filter out past events
 $query = "
     SELECT e.*, GROUP_CONCAT(t.tag_name ORDER BY t.tag_name ASC) AS tags, c.name AS category
     FROM events e
     LEFT JOIN event_tags et ON e.id = et.event_id
     LEFT JOIN tags t ON et.tag_id = t.id
     LEFT JOIN categories c ON e.category_id = c.id
-    WHERE e.user_id = ? AND (e.title LIKE ? OR e.event_date LIKE ?)
+    WHERE e.user_id = ? AND (e.title LIKE ? OR e.event_date LIKE ?) AND e.event_date >= CURDATE()
     GROUP BY e.id
     ORDER BY $sort_option $sort_order
 ";
