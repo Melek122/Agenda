@@ -30,26 +30,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Reset de la marge et du padding pour tous les éléments */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Corps de la page */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e5e5e5; /* Light gray background */
+            font-family: 'Circe', sans-serif;
+            background-color: #E9E9EB; /* Light background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #072E33; /* Dark gray text color for body */
+            color: #43506C; /* Primary text color */
         }
 
-        /* Conteneur principal */
         .container {
             display: flex;
             justify-content: center;
@@ -58,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             height: 100%;
         }
 
-        /* Formulaire d'inscription */
         .form-container {
             background-color: white;
             padding: 40px;
@@ -70,66 +67,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             justify-content: center;
         }
 
-        /* Titre */
         h2 {
             text-align: center;
-            color: #0F969C; /* Accent color for the title */
+            color: #43506C; /* Primary color for the title */
             margin-bottom: 30px;
-            font-size: 32px;
-            font-weight: 700;
-            text-transform: uppercase;
+            font-size: 28px;
+            font-weight: bold;
         }
 
-        /* Champs de saisie */
         input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
-            border: 1px solid #6DA5C0; /* Light blue border */
+            border: 1px solid #3D619B; /* Border color */
             border-radius: 5px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Focus des champs de saisie */
         input[type="email"]:focus,
         input[type="password"]:focus {
-            border-color: #0F969C; /* Accent color when focused */
+            border-color: #EF4B4C; /* Accent color for focus */
             outline: none;
-            box-shadow: 0 0 8px rgba(15, 150, 156, 0.6);
+            box-shadow: 0 0 8px rgba(239, 75, 76, 0.6);
         }
 
-        /* Bouton de soumission */
         button[type="submit"] {
             width: 100%;
             padding: 15px;
-            background-color: #0F969C; /* Accent color */
+            background-color: #3D619B; /* Button color */
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s;
             margin-top: 20px;
         }
 
-        /* Changement de couleur du bouton au survol */
         button[type="submit"]:hover {
-            background-color: #294D61; /* Dark blue on hover */
+            background-color: #EF4B4C; /* Hover color */
+            transform: translateY(-2px);
         }
 
-        /* Lien de connexion */
         p {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
-            color: #0C7075; /* Light teal for the text */
+            color: #43506C; /* Text color */
         }
 
-        /* Lien d'inscription */
         a {
-            color: #0F969C; /* Accent color */
+            color: #EF4B4C; /* Link color */
             text-decoration: none;
         }
 
@@ -137,15 +128,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-decoration: underline;
         }
 
-        /* Message d'erreur */
         .error {
-            color: red;
+            color: #EF4B4C; /* Error message color */
             text-align: center;
             margin-top: 15px;
             font-size: 14px;
         }
 
-        /* Responsivité pour les écrans plus petits */
         @media (max-width: 768px) {
             .form-container {
                 width: 90%;
