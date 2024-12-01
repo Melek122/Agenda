@@ -80,6 +80,25 @@ $stmt->close();
             letter-spacing: 1px;
         }
 
+        /* Profile Button Styles */
+        .btn-profile {
+            background-color: #3D619B; /* Deep blue for profile button */
+            color: white;
+            font-size: 14px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-profile:hover {
+            background-color: #EF4B4C; /* Red hover effect */
+            transform: scale(1.05);
+        }
+
         /* Button Styles */
         .btn-primary {
             background-color: #3D619B; /* Deep blue for primary buttons */
@@ -174,6 +193,9 @@ $stmt->close();
     </style>
 </head>
 <body>
+    <!-- Profile Button (visible only if logged in) -->
+    <a href="profile.php" class="btn-profile">Go to Profile</a>
+
     <div class="container">
         <!-- Logout Button -->
         <div class="logout-container">
