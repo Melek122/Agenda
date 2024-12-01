@@ -37,21 +37,22 @@ $stmt->close();
     <style id="theme-style">
         /* Default Light Theme */
         body {
-            background-color: #f5f7fa;
-            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #333;
         }
 
         .container {
             background-color: #ffffff;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
         }
@@ -59,63 +60,87 @@ $stmt->close();
         h2 {
             color: #333;
             font-size: 36px;
-            font-weight: 700;
+            font-weight: 800;
             text-align: center;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
-            color: transparent;
-            background-clip: text;
-            -webkit-background-clip: text;
+            letter-spacing: 1px;
         }
 
-        .btn-primary {
-            background-color: #6a82fb;
+        .btn-primary, .btn-toggle-theme {
+            background: linear-gradient(to right, #6a82fb, #fc5c7d);
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             color: #fff;
             padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            display: inline-block;
-            margin-bottom: 20px;
         }
 
-        .btn-primary:hover {
-            background-color: #ff5c8d;
-            transform: scale(1.05);
+        .btn-primary:hover, .btn-toggle-theme:hover {
+            background: linear-gradient(to right, #fc5c7d, #6a82fb);
+            transform: translateY(-2px);
         }
 
         .table {
             margin-top: 20px;
             background-color: #ffffff;
             border-collapse: collapse;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
         }
 
         .table th {
             background-color: #6a82fb;
             color: white;
+            font-weight: bold;
         }
 
         .table td {
             color: #555;
+            font-size: 14px;
         }
 
-        .btn-toggle-theme {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #6a82fb;
-            border: none;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .btn-edit {
+            background-color: #4caf50;
+            color: white;
+            border-radius: 50px;
+            font-size: 12px;
+            padding: 5px 15px;
         }
 
-        .btn-toggle-theme:hover {
-            background-color: #ff5c8d;
+        .btn-edit:hover {
+            background-color: #388e3c;
+        }
+
+        .btn-delete {
+            background-color: #e53935;
+            color: white;
+            border-radius: 50px;
+            font-size: 12px;
+            padding: 5px 15px;
+        }
+
+        .btn-delete:hover {
+            background-color: #c62828;
+        }
+
+        .btn-danger {
+            background-color: #ff5252;
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff1744;
         }
     </style>
 </head>
@@ -174,19 +199,20 @@ $stmt->close();
 
             .container {
                 background-color: #1e1e1e;
-                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             }
 
             h2 {
-                background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+                color: #ffffff;
             }
 
             .btn-primary, .btn-toggle-theme {
-                background-color: #ff7e5f;
+                background: linear-gradient(to right, #ff7e5f, #feb47b);
+                color: white;
             }
 
             .btn-primary:hover, .btn-toggle-theme:hover {
-                background-color: #feb47b;
+                background: linear-gradient(to right, #feb47b, #ff7e5f);
             }
 
             .table {
@@ -195,10 +221,35 @@ $stmt->close();
 
             .table th {
                 background-color: #424242;
+                color: white;
             }
 
             .table td {
                 color: #b0bec5;
+            }
+
+            .btn-edit {
+                background-color: #26a69a;
+            }
+
+            .btn-edit:hover {
+                background-color: #00897b;
+            }
+
+            .btn-delete {
+                background-color: #ef5350;
+            }
+
+            .btn-delete:hover {
+                background-color: #d32f2f;
+            }
+
+            .btn-danger {
+                background-color: #ef5350;
+            }
+
+            .btn-danger:hover {
+                background-color: #c62828;
             }
         `;
 
