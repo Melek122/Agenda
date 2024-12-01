@@ -115,19 +115,34 @@ $stmt->close();
             transform: scale(1.05);
         }
 
-        .btn-edit, .btn-danger {
-            background-color: #43506C;  /* Matching the palette */
+        /* Edit and Delete Buttons */
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        
+        .btn-edit {
+            background-color: #43506C;
             color: white;
             border: none;
-            padding: 6px 12px; /* Small padding */
-            font-size: 12px;  /* Smaller font size */
-            font-weight: bold;
-            border-radius: 4px; /* Small radius for elegance */
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
         }
-
-        .btn-edit:hover, .btn-danger:hover {
-            background-color: #EF4B4C;  /* Hover effect */
+        
+        .btn-edit:hover {
+            background-color: #EF4B4C;
+            transform: scale(1.05);
+        }
+        
+        .btn-danger {
+            background-color: #EF4B4C;
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            background-color: #43506C;
             transform: scale(1.05);
         }
 
