@@ -44,22 +44,24 @@ if (isset($_POST['login'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <style>
-        /* Style for the form */
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Body Style */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
+            background-color: #f4f7fc; /* Light background for the page */
             display: flex;
             height: 100vh;
             justify-content: center;
             align-items: center;
         }
 
+        /* Container Style */
         .container {
             display: flex;
             width: 80%;
@@ -68,6 +70,7 @@ if (isset($_POST['login'])) {
             overflow: hidden;
         }
 
+        /* Form Section */
         .form-container {
             background-color: white;
             padding: 40px;
@@ -79,11 +82,13 @@ if (isset($_POST['login'])) {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
+        /* Title for form */
         h2 {
             margin-bottom: 20px;
-            color: #333;
+            color: #294D61; /* Use your custom dark color */
         }
 
+        /* Input Fields */
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -97,14 +102,15 @@ if (isset($_POST['login'])) {
 
         input[type="email"]:focus,
         input[type="password"]:focus {
-            border-color: #0066cc;
+            border-color: #0F969C; /* Highlight on focus with accent color */
             outline: none;
         }
 
+        /* Submit Button */
         button[type="submit"] {
             width: 100%;
             padding: 15px;
-            background-color: #0066cc;
+            background-color: #294D61; /* Primary Color */
             color: white;
             border: none;
             border-radius: 5px;
@@ -114,26 +120,29 @@ if (isset($_POST['login'])) {
         }
 
         button[type="submit"]:hover {
-            background-color: #005bb5;
+            background-color: #0C7075; /* Hover effect with secondary color */
         }
 
+        /* Paragraph */
         p {
             margin-top: 20px;
             font-size: 14px;
         }
 
         a {
-            color: #0066cc;
+            color: #0F969C; /* Accent color for links */
             text-decoration: none;
         }
 
+        /* Error Message */
         .error {
             color: red;
             margin-top: 20px;
         }
 
+        /* Welcome Section */
         .welcome-container {
-            background-color: #0066cc;
+            background-color: #294D61; /* Primary Color */
             color: white;
             padding: 40px;
             width: 50%;
@@ -157,7 +166,7 @@ if (isset($_POST['login'])) {
         .welcome-container button {
             padding: 12px 25px;
             background-color: #ffffff;
-            color: #0066cc;
+            color: #294D61; /* Matching the primary color */
             border: none;
             border-radius: 5px;
             font-size: 16px;
@@ -166,7 +175,7 @@ if (isset($_POST['login'])) {
         }
 
         .welcome-container button:hover {
-            background-color: #e0e0e0;
+            background-color: #e0e0e0; /* Subtle hover effect */
         }
 
         @media (max-width: 768px) {
@@ -185,7 +194,7 @@ if (isset($_POST['login'])) {
 </head>
 <body>
     <div class="container">
-        <!-- Formulaire de connexion -->
+        <!-- Login Form -->
         <div class="form-container">
             <h2>Se connecter</h2>
             <form action="signin.php" method="POST">
@@ -200,7 +209,7 @@ if (isset($_POST['login'])) {
             <p>Pas encore de compte ? <a href="signup.php">Inscrivez-vous ici</a>.</p>
         </div>
 
-        <!-- Welcome note -->
+        <!-- Welcome Section -->
         <div class="welcome-container">
             <h3>Bienvenue dans l'Agenda !</h3>
             <p>Nous sommes ravis de vous accueillir ! Connectez-vous pour profiter d'une expérience organisée, où vous pouvez facilement gérer vos événements, tâches et rendez-vous.</p>
