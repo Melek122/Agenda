@@ -51,15 +51,15 @@ $stmt->close();
     <style>
         /* General Styles */
         body {
-            background-color: #e5e5e5; /* Light gray background */
-            font-family: 'Arial', sans-serif;
+            background-color: #1E1E2A; /* Dark background */
+            font-family: 'Circe', sans-serif; /* New font */
             margin: 0;
             padding: 0;
-            color: #072E33; /* Dark gray text color */
+            color: #FFFFFF; /* White text color */
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: #302E3B; /* Main container background */
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -74,16 +74,16 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #294D61; /* Dark blue for the title */
+            color: #FFFFFF; /* White title */
             letter-spacing: 1px;
         }
 
         /* Button Styles */
         .btn-primary {
-            background-color: #294D61;
+            background-color: #44404D; /* Darker gray button */
             border: none;
             border-radius: 8px;
-            color: #fff;
+            color: #FFFFFF;
             padding: 10px 20px;
             transition: all 0.3s ease;
             font-weight: bold;
@@ -91,12 +91,12 @@ $stmt->close();
         }
 
         .btn-primary:hover {
-            background-color: #0F969C;
+            background-color: #797993; /* Hover gray-purple */
             transform: scale(1.05);
         }
 
         .btn-edit {
-            background-color: #0C7075;  /* Matching the palette */
+            background-color: #48484B;  /* Neutral gray */
             color: white;
             border: none;
             padding: 10px 20px;
@@ -106,29 +106,29 @@ $stmt->close();
         }
 
         .btn-edit:hover {
-            background-color: #072E33;  /* Hover effect */
+            background-color: #797993;  /* Hover gray-purple */
             transform: translateY(-2px);
         }
 
         .btn-danger {
-            background-color: #f5624d;  /* Matching the palette */
+            background-color: #797993;  /* Accent color */
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
-            color: #fff;
+            color: #FFFFFF;
             transition: all 0.3s ease;
             font-weight: bold;
         }
 
         .btn-danger:hover {
-            background-color: #d64535;  /* Hover effect */
+            background-color: #48484B;  /* Darker accent */
             transform: scale(1.05);
         }
 
         /* Table Styles */
         .table {
             margin-top: 20px;
-            background-color: #ffffff;
+            background-color: #302E3B; /* Table background */
             border-collapse: collapse;
             border-radius: 12px;
             overflow: hidden;
@@ -141,7 +141,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #294D61; /* Dark blue for headers */
+            background-color: #44404D; /* Header background */
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -149,7 +149,7 @@ $stmt->close();
 
         .table td {
             font-size: 14px;
-            color: #555;
+            color: #FFFFFF; /* White text in table */
         }
 
         .logout-container {
@@ -158,7 +158,7 @@ $stmt->close();
         }
 
         .btn-logout {
-            background-color: #d64535;
+            background-color: #797993; /* Logout button color */
             color: white;
             padding: 10px 20px;
             font-weight: bold;
@@ -167,10 +167,28 @@ $stmt->close();
         }
 
         .btn-logout:hover {
-            background-color: #f5624d;
+            background-color: #48484B; /* Hover effect for logout */
             transform: scale(1.05);
         }
+
+        input, select {
+            background-color: #302E3B; /* Input background */
+            color: #FFFFFF; /* Input text color */
+            border: 1px solid #44404D; /* Input border */
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        input::placeholder {
+            color: #797993; /* Placeholder color */
+        }
+
+        select {
+            appearance: none; /* Remove native dropdown styling */
+        }
     </style>
+    <!-- Include Circe Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -241,3 +259,4 @@ $stmt->close();
     </div>
 </body>
 </html>
+
