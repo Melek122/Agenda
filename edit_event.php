@@ -31,17 +31,28 @@ if ($result->num_rows == 0) {
 $event = $result->fetch_assoc();
 $stmt->close();
 
+// Fetch all categories to populate the category dropdown
+$categories_stmt = $con->prepare("SELECT * FROM categories");
+$categories_stmt->execute();
+$categories_result = $categories_stmt->get_result();
+$categories = [];
+while ($category = $categories_result->fetch_assoc()) {
+    $categories[] = $category;
+}
+$categories_stmt->close();
+
 // Handle form submission to update the event
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = mysqli_real_escape_string($con, $_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $event_date = $_POST['event_date'];
     $tags = $_POST['tags'];
+    $category_id = $_POST['category']; // Get the selected category
 
     // Update the event in the database
-    $update_sql = "UPDATE events SET title = ?, description = ?, event_date = ? WHERE id = ? AND user_id = ?";
+    $update_sql = "UPDATE events SET title = ?, description = ?, event_date = ?, category_id = ? WHERE id = ? AND user_id = ?";
     $stmt = $con->prepare($update_sql);
-    $stmt->bind_param("sssii", $title, $description, $event_date, $event_id, $user_id);
+    $stmt->bind_param("sssiii", $title, $description, $event_date, $category_id, $event_id, $user_id);
 
     if ($stmt->execute()) {
         // Clear existing tags for the event
@@ -73,8 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $tag_id = $insert_tag_stmt->insert_id;
                 $insert_tag_stmt->close();
             }
-
-            $tag_stmt->close();
 
             // Link the tag to the event
             $link_tag_sql = "INSERT INTO event_tags (event_id, tag_id) VALUES (?, ?)";
@@ -132,7 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-group input, 
-        .form-group textarea {
+        .form-group textarea, 
+        .form-group select {
             border-radius: 8px;
             border: 2px solid #3D619B;
             padding: 12px;
@@ -143,7 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-group input:focus, 
-        .form-group textarea:focus {
+        .form-group textarea:focus, 
+        .form-group select:focus {
             border-color: #EF4B4C;
             box-shadow: 0 0 8px rgba(239, 75, 76, 0.6);
             outline: none;
@@ -213,6 +224,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                     echo htmlspecialchars(implode(', ', $tags));
                 ?>" required>
+            </div>
+            <div class="form-group">
+                <select name="category" class="form-control" required>
+                    <option value="">Select Category</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo $category['id']; ?>" <?php echo ($event['category_id'] == $category['id']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($category['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <button type="submit" class="btn">Update Event</button>
             <a href="index.php" class="btn-secondary">Back to Home</a>
