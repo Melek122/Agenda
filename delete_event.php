@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+if (isset($_GET['event_id'])) {
+    $event_id = $_GET['event_id'];
     $user_id = $_SESSION['user_id'];
 
     // Delete the event
