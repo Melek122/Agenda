@@ -32,101 +32,171 @@ $stmt->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Professional Agenda</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background: linear-gradient(to right, #6a82fb, #fc5c7d);
+            background-color: #f5f7fa;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
             padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
         }
 
         h2 {
+            color: #333;
+            font-size: 36px;
+            font-weight: 700;
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
             text-transform: uppercase;
-            font-size: 2.5rem;
+            background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
         }
 
-        .btn-primary, .btn-danger {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .btn-primary {
+            background-color: #6a82fb;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
-        .btn-primary:hover, .btn-danger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .btn-primary:hover {
+            background-color: #ff5c8d;
+            transform: scale(1.05);
+        }
+
+        .btn-small {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-edit {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background-color: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .table {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
         }
 
         .table th {
             background-color: #6a82fb;
             color: white;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .table td, .table th {
-            vertical-align: middle;
-            font-size: 0.9rem;
+        .table td {
+            font-size: 14px;
+            color: #555;
         }
 
         .sign-out-btn {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
-        .empty-message {
-            text-align: center;
-            font-style: italic;
-            color: #666;
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Your Agenda</h2>
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="add_event.php" class="btn btn-primary">Add New Event</a>
-            <a href="logout.php" class="btn btn-danger">Sign Out</a>
-        </div>
-        <h3 class="text-center mb-4">Events Calendar</h3>
-        <?php if ($events): ?>
-            <table class="table table-striped table-hover text-center">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
+
+        <a href="add_event.php" class="btn btn-primary">+ Add New Event</a>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($events): ?>
                     <?php foreach ($events as $event): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($event['title']); ?></td>
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
+                            <td>
+                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
+                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p class="empty-message">You have no events yet. Add your first event!</p>
-        <?php endif; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4">No events found. Start by adding one!</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <div class="sign-out-btn">
+            <a href="logout.php" class="btn btn-danger">Sign Out</a>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
