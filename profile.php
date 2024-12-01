@@ -156,6 +156,21 @@ $stmt->close();
             font-size: 20px;
         }
 
+        /* Back Button Styles */
+        .btn-back {
+            background-color: #3D619B;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #EF4B4C;
+        }
     </style>
 </head>
 
@@ -217,6 +232,9 @@ $stmt->close();
                 <p>You don't have any past events.</p>
             <?php endif; ?>
         </div>
+
+        <!-- Back to Agenda Button -->
+        <a href="index.php" class="btn btn-back">Back to Agenda</a>
 
     </div>
 
