@@ -221,8 +221,6 @@ $stmt->close();
                         <li>
                             <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
                             <em><?php echo htmlspecialchars($event['event_date']); ?></em><br>
-                            <a href="event_details.php?event_id=<?php echo $event['id']; ?>"
-                                class="btn btn-primary btn-sm mt-2">View Event</a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
