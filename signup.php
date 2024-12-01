@@ -1,25 +1,26 @@
 <?php
-// Include the database connection
-require_once 'db.php';  // Make sure the path to db.php is correct
+require_once 'db.php';
 
-// Check if the form is submitted via POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and get the form data
-    $email = mysqli_real_escape_string($con, $_POST['email']);
-    $password = mysqli_real_escape_string($con, $_POST['password']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // Hash the password before saving it (for security reasons)
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Generate username from the first part of the email
+    $username = explode('@', $email)[0];
 
-    // SQL query to insert the new user into the database
-    $query = "INSERT INTO users (email, password) VALUES ('$email', '$hashedPassword')";
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-    // Execute the query
-    if (mysqli_query($con, $query)) {
-        echo "User successfully registered!";
-    } else {
-        echo "Error: " . mysqli_error($con);
-    }
+    // Insert the new user into the database
+    $query = "INSERT INTO users (email, password, username) VALUES (?, ?, ?)";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("sss", $email, $hashed_password, $username);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect to the login page after successful registration
+    header('Location: signin.php');
+    exit();
 }
 ?>
 
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
+    <title>Sign Up</title>
     <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
