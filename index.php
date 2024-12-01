@@ -211,7 +211,7 @@ $stmt->close();
                             </td>
                             <td>
                                 <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-edit btn-sm">Edit</a>
-                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
