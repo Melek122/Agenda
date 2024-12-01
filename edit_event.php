@@ -9,38 +9,85 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// Check if the event ID is provided
+if (!isset($_GET['event_id'])) {
+    echo "No event ID provided.";
+    exit();
+}
+
+$event_id = $_GET['event_id'];
+
+// Fetch the event details for the given event ID
+$stmt = $con->prepare("SELECT * FROM events WHERE id = ? AND user_id = ?");
+$stmt->bind_param("ii", $event_id, $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    echo "Event not found or access denied.";
+    exit();
+}
+
+$event = $result->fetch_assoc();
+$stmt->close();
+
+// Handle form submission to update the event
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = mysqli_real_escape_string($con, $_POST['title']);
     $description = mysqli_real_escape_string($con, $_POST['description']);
     $event_date = $_POST['event_date'];
     $tags = $_POST['tags'];
 
-    $sql = "INSERT INTO events (user_id, title, description, event_date) VALUES ('$user_id', '$title', '$description', '$event_date')";
-    if ($con->query($sql) === TRUE) {
-        $event_id = $con->insert_id;
+    // Update the event in the database
+    $update_sql = "UPDATE events SET title = ?, description = ?, event_date = ? WHERE id = ? AND user_id = ?";
+    $stmt = $con->prepare($update_sql);
+    $stmt->bind_param("sssii", $title, $description, $event_date, $event_id, $user_id);
 
+    if ($stmt->execute()) {
+        // Clear existing tags for the event
+        $clear_tags_sql = "DELETE FROM event_tags WHERE event_id = ?";
+        $clear_stmt = $con->prepare($clear_tags_sql);
+        $clear_stmt->bind_param("i", $event_id);
+        $clear_stmt->execute();
+        $clear_stmt->close();
+
+        // Add updated tags
         $tags_array = array_map('trim', explode(',', $tags));
         foreach ($tags_array as $tag_name) {
-            $tag_sql = "SELECT id FROM tags WHERE tag_name = '$tag_name'";
-            $tag_result = $con->query($tag_sql);
+            // Check if the tag exists
+            $tag_sql = "SELECT id FROM tags WHERE tag_name = ?";
+            $tag_stmt = $con->prepare($tag_sql);
+            $tag_stmt->bind_param("s", $tag_name);
+            $tag_stmt->execute();
+            $tag_result = $tag_stmt->get_result();
+
             if ($tag_result->num_rows > 0) {
                 $tag = $tag_result->fetch_assoc();
                 $tag_id = $tag['id'];
             } else {
-                $insert_tag_sql = "INSERT INTO tags (tag_name) VALUES ('$tag_name')";
-                if ($con->query($insert_tag_sql) === TRUE) {
-                    $tag_id = $con->insert_id;
-                }
+                // Insert new tag
+                $insert_tag_sql = "INSERT INTO tags (tag_name) VALUES (?)";
+                $insert_tag_stmt = $con->prepare($insert_tag_sql);
+                $insert_tag_stmt->bind_param("s", $tag_name);
+                $insert_tag_stmt->execute();
+                $tag_id = $insert_tag_stmt->insert_id;
+                $insert_tag_stmt->close();
             }
 
-            $link_tag_sql = "INSERT INTO event_tags (event_id, tag_id) VALUES ('$event_id', '$tag_id')";
-            $con->query($link_tag_sql);
+            $tag_stmt->close();
+
+            // Link the tag to the event
+            $link_tag_sql = "INSERT INTO event_tags (event_id, tag_id) VALUES (?, ?)";
+            $link_tag_stmt = $con->prepare($link_tag_sql);
+            $link_tag_stmt->bind_param("ii", $event_id, $tag_id);
+            $link_tag_stmt->execute();
+            $link_tag_stmt->close();
         }
 
         header('Location: index.php');
         exit();
     } else {
-        echo "Error: " . $sql . "<br>" . $con->error;
+        echo "Error updating event: " . $stmt->error;
     }
 }
 ?>
@@ -48,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add New Event</title>
+    <title>Edit Event</title>
     <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -145,21 +192,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container">
-        <h2>Create New Event</h2>
-        <form action="add_event.php" method="POST">
+        <h2>Edit Event</h2>
+        <form action="edit_event.php?event_id=<?php echo $event_id; ?>" method="POST">
             <div class="form-group">
-                <input type="text" name="title" class="form-control" placeholder="Event Title" required>
+                <input type="text" name="title" class="form-control" placeholder="Event Title" value="<?php echo htmlspecialchars($event['title']); ?>" required>
             </div>
             <div class="form-group">
-                <input type="date" name="event_date" class="form-control" required>
+                <input type="date" name="event_date" class="form-control" value="<?php echo htmlspecialchars($event['event_date']); ?>" required>
             </div>
             <div class="form-group">
-                <textarea name="description" class="form-control" placeholder="Event Description" required></textarea>
+                <textarea name="description" class="form-control" placeholder="Event Description" required><?php echo htmlspecialchars($event['description']); ?></textarea>
             </div>
             <div class="form-group">
-                <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" required>
+                <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" value="<?php 
+                    $tag_query = "SELECT t.tag_name FROM tags t JOIN event_tags et ON t.id = et.tag_id WHERE et.event_id = $event_id";
+                    $tag_result = $con->query($tag_query);
+                    $tags = [];
+                    while ($tag_row = $tag_result->fetch_assoc()) {
+                        $tags[] = $tag_row['tag_name'];
+                    }
+                    echo htmlspecialchars(implode(', ', $tags));
+                ?>" required>
             </div>
-            <button type="submit" class="btn">Add Event</button>
+            <button type="submit" class="btn">Update Event</button>
             <a href="index.php" class="btn-secondary">Back to Home</a>
         </form>
     </div>
