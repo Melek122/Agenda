@@ -1,67 +1,74 @@
 <?php
 session_start();
-require_once 'db.php';
+require 'db.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.php');
     exit();
 }
 
-if (isset($_GET['event_id'])) {
-    $event_id = $_GET['event_id'];
-    $user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
-    // Fetch the event details
-    $stmt = $con->prepare("SELECT * FROM events WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $event_id, $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 0) {
-        echo "Event not found!";
-        exit();
-    }
-
-    $event = $result->fetch_assoc();
-    $stmt->close();
-}
-
-// Handle form submission to update event
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $description = mysqli_real_escape_string($con, $_POST['description']);
     $event_date = $_POST['event_date'];
+    $tags = $_POST['tags'];
 
-    $stmt = $con->prepare("UPDATE events SET title = ?, description = ?, event_date = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $title, $description, $event_date, $event_id);
-    $stmt->execute();
+    $sql = "INSERT INTO events (user_id, title, description, event_date) VALUES ('$user_id', '$title', '$description', '$event_date')";
+    if ($con->query($sql) === TRUE) {
+        $event_id = $con->insert_id;
 
-    header('Location: index.php');
-    exit();
+        $tags_array = array_map('trim', explode(',', $tags));
+        foreach ($tags_array as $tag_name) {
+            $tag_sql = "SELECT id FROM tags WHERE tag_name = '$tag_name'";
+            $tag_result = $con->query($tag_sql);
+            if ($tag_result->num_rows > 0) {
+                $tag = $tag_result->fetch_assoc();
+                $tag_id = $tag['id'];
+            } else {
+                $insert_tag_sql = "INSERT INTO tags (tag_name) VALUES ('$tag_name')";
+                if ($con->query($insert_tag_sql) === TRUE) {
+                    $tag_id = $con->insert_id;
+                }
+            }
+
+            $link_tag_sql = "INSERT INTO event_tags (event_id, tag_id) VALUES ('$event_id', '$tag_id')";
+            $con->query($link_tag_sql);
+        }
+
+        header('Location: index.php');
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . $con->error;
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Event</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Add New Event</title>
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e5e5e5; /* Light gray background */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Circe', sans-serif;
+            background-color: #E9E9EB;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #43506C;
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -70,86 +77,90 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         h2 {
-            color: #294D61; /* Dark blue */
-            font-size: 36px;
-            font-weight: 700;
+            color: #43506C;
+            font-size: 28px;
+            font-weight: bold;
             text-align: center;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            background-image: linear-gradient(to left, #0F969C, #6DA5C0);
-            color: transparent;
-            background-clip: text;
         }
 
-        .form-group input, .form-group textarea {
-            border-radius: 10px;
-            border: 2px solid #ddd;
+        .form-group input, 
+        .form-group textarea {
+            border-radius: 8px;
+            border: 2px solid #3D619B;
             padding: 12px;
             font-size: 16px;
             width: 100%;
-            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #0F969C; /* Accent color on focus */
-            box-shadow: 0 0 8px rgba(15, 150, 156, 0.6);
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: #EF4B4C;
+            box-shadow: 0 0 8px rgba(239, 75, 76, 0.6);
             outline: none;
         }
 
         button[type="submit"] {
-            background-color: #0F969C; /* Accent color */
-            color: #fff;
+            background-color: #3D619B;
+            color: white;
             border: none;
             padding: 14px;
             font-size: 16px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         button[type="submit"]:hover {
-            background-color: #294D61; /* Darker blue */
+            background-color: #EF4B4C;
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: #072E33; /* Dark teal */
-            color: #fff;
-            padding: 14px;
-            width: 100%;
-            font-size: 16px;
-            border-radius: 10px;
+            background-color: #43506C;
+            color: white;
             text-align: center;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            display: inline-block;
+            text-decoration: none;
             margin-top: 15px;
             transition: background-color 0.3s ease;
         }
 
         .btn-secondary:hover {
-            background-color: #05161A; /* Darkest teal */
+            background-color: #3D619B;
         }
 
-        .form-group input::placeholder, .form-group textarea::placeholder {
-            color: #aaa;
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Edit Event</h2>
-        <form action="edit_event.php?event_id=<?php echo $event_id; ?>" method="POST">
+        <h2>Create New Event</h2>
+        <form action="add_event.php" method="POST">
             <div class="form-group">
-                <input type="text" name="title" class="form-control" placeholder="Event Title" value="<?php echo htmlspecialchars($event['title']); ?>" required>
+                <input type="text" name="title" class="form-control" placeholder="Event Title" required>
             </div>
             <div class="form-group">
-                <input type="date" name="event_date" class="form-control" value="<?php echo htmlspecialchars($event['event_date']); ?>" required>
+                <input type="date" name="event_date" class="form-control" required>
             </div>
             <div class="form-group">
-                <textarea name="description" class="form-control" placeholder="Event Description" required><?php echo htmlspecialchars($event['description']); ?></textarea>
+                <textarea name="description" class="form-control" placeholder="Event Description" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Update Event</button>
-            <a href="index.php" class="btn btn-secondary">Back to Home</a>
+            <div class="form-group">
+                <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" required>
+            </div>
+            <button type="submit" class="btn">Add Event</button>
+            <a href="index.php" class="btn-secondary">Back to Home</a>
         </form>
     </div>
 </body>
