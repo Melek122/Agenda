@@ -55,10 +55,6 @@ $stmt->close();
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             color: #072E33; /* Dark gray text color */
         }
 
@@ -68,7 +64,8 @@ $stmt->close();
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             max-width: 900px;
-            width: 100%;
+            margin: auto;
+            margin-top: 20px;
         }
 
         h2 {
@@ -155,14 +152,33 @@ $stmt->close();
             color: #555;
         }
 
-        .sign-out-btn {
-            margin-top: 20px;
-            text-align: center;
+        .logout-container {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .btn-logout {
+            background-color: #d64535;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #f5624d;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Logout Button -->
+        <div class="logout-container">
+            <a href="logout.php" class="btn btn-logout">Logout</a>
+        </div>
+
         <h2>Your Agenda</h2>
 
         <!-- Search Form -->
