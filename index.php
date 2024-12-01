@@ -25,6 +25,11 @@ $events = $result->fetch_all(MYSQLI_ASSOC);
 
 // Close the statement
 $stmt->close();
+
+// Helper function to convert dd/mm/yyyy to yyyy-mm-dd format
+function convertDateFormat($date) {
+    $dateParts = explode('/', $date); // Split date by "/"
+    return $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // Return in yyyy-mm-dd format
 ?>
 
 <!DOCTYPE html>
