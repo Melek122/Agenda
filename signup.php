@@ -41,11 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         /* Corps de la page */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
+            background-color: #e5e5e5; /* Light gray background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-image: linear-gradient(135deg, #ff5c8d, #6a82fb); /* Gradient background */
+            animation: fadeIn 0.8s ease-out;
         }
 
         /* Conteneur principal */
@@ -62,18 +64,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: white;
             padding: 40px;
             width: 400px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            animation: slideIn 1s ease-out;
         }
 
         /* Titre */
         h2 {
             text-align: center;
-            color: #333;
+            color: #294D61; /* Dark blue */
             margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background-image: linear-gradient(to left, #0F969C, #6DA5C0);
+            color: transparent;
+            background-clip: text;
         }
 
         /* Champs de saisie */
@@ -82,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             padding: 15px;
             margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
             font-size: 16px;
             transition: border-color 0.3s;
         }
@@ -91,26 +100,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         /* Focus des champs de saisie */
         input[type="email"]:focus,
         input[type="password"]:focus {
-            border-color: #0066cc;
+            border-color: #0F969C; /* Accent color on focus */
             outline: none;
+            box-shadow: 0 0 8px rgba(15, 150, 156, 0.6);
         }
 
         /* Bouton de soumission */
         button[type="submit"] {
             width: 100%;
             padding: 15px;
-            background-color: #0066cc;
+            background-color: #0F969C; /* Accent color */
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 15px;
         }
 
         /* Changement de couleur du bouton au survol */
         button[type="submit"]:hover {
-            background-color: #005bb5;
+            background-color: #294D61; /* Darker blue on hover */
         }
 
         /* Lien de connexion */
@@ -122,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         /* Lien d'inscription */
         a {
-            color: #0066cc;
+            color: #0F969C;
             text-decoration: none;
         }
 
@@ -136,6 +147,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-align: center;
             margin-top: 15px;
             font-size: 14px;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
         /* Responsivité pour les écrans plus petits */
