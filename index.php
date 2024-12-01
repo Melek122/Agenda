@@ -37,7 +37,7 @@ $stmt->close();
     <style>
         /* General Styles */
         body {
-            background-color: #f4f4f9;
+            background-color: #f4f4f9; /* Default for Dark Theme */
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -216,7 +216,7 @@ $stmt->close();
 
         /* Light Theme Styles */
         body.light {
-            background-color: #f4f4f9;
+            background-color: #e5e5e5; /* Light gray background */
             color: #333;
         }
 
