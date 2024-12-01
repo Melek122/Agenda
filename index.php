@@ -36,7 +36,7 @@ $stmt->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f5f7fa;
+            background-color: #121212;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -44,32 +44,32 @@ $stmt->close();
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #e0e0e0;
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: #1e1e1e;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
             max-width: 900px;
             width: 100%;
         }
 
         h2 {
-            color: #333;
             font-size: 36px;
             font-weight: 700;
             text-align: center;
             margin-bottom: 20px;
             text-transform: uppercase;
-            background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
+            background-image: linear-gradient(to right, #ff7e5f, #feb47b);
             color: transparent;
             background-clip: text;
             -webkit-background-clip: text;
         }
 
         .btn-primary {
-            background-color: #6a82fb;
+            background-color: #ff7e5f;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -80,7 +80,7 @@ $stmt->close();
         }
 
         .btn-primary:hover {
-            background-color: #ff5c8d;
+            background-color: #feb47b;
             transform: scale(1.05);
         }
 
@@ -92,30 +92,30 @@ $stmt->close();
         }
 
         .btn-edit {
-            background-color: #17a2b8;
+            background-color: #29b6f6;
             color: white;
             border: none;
         }
 
         .btn-edit:hover {
-            background-color: #138496;
+            background-color: #0288d1;
             transform: translateY(-2px);
         }
 
         .btn-delete {
-            background-color: #dc3545;
+            background-color: #ef5350;
             color: white;
             border: none;
         }
 
         .btn-delete:hover {
-            background-color: #c82333;
+            background-color: #d32f2f;
             transform: translateY(-2px);
         }
 
         .table {
             margin-top: 20px;
-            background-color: #ffffff;
+            background-color: #212121;
             border-collapse: collapse;
             border-radius: 10px;
             overflow: hidden;
@@ -125,18 +125,19 @@ $stmt->close();
             text-align: center;
             vertical-align: middle;
             padding: 10px;
+            border: 1px solid #424242;
         }
 
         .table th {
-            background-color: #6a82fb;
-            color: white;
+            background-color: #424242;
+            color: #e0e0e0;
             text-transform: uppercase;
             font-weight: bold;
         }
 
         .table td {
             font-size: 14px;
-            color: #555;
+            color: #b0bec5;
         }
 
         .sign-out-btn {
@@ -145,7 +146,7 @@ $stmt->close();
         }
 
         .btn-danger {
-            background-color: #dc3545;
+            background-color: #ef5350;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
@@ -154,7 +155,7 @@ $stmt->close();
         }
 
         .btn-danger:hover {
-            background-color: #c82333;
+            background-color: #d32f2f;
         }
     </style>
 </head>
