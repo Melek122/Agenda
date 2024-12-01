@@ -50,7 +50,7 @@ $stmt->close();
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: #E8D8C4;  /* Light Beige for light theme */
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -65,13 +65,13 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #4a4a8c;
+            color: #6D2932;  /* Dark Red for headings */
             letter-spacing: 1px;
         }
 
         /* Button Styles */
         .btn-primary {
-            background-color: #4a4a8c;
+            background-color: #6D2932;  /* Dark Red for buttons */
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -82,7 +82,7 @@ $stmt->close();
         }
 
         .btn-primary:hover {
-            background-color: #6a82fb;
+            background-color: #561C24;  /* Deep Maroon for hover */
             transform: scale(1.05);
         }
 
@@ -146,7 +146,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #4a4a8c;
+            background-color: #6D2932;  /* Dark Red for table headers */
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -154,7 +154,7 @@ $stmt->close();
 
         .table td {
             font-size: 14px;
-            color: #555;
+            color: #333;
         }
 
         .sign-out-btn {
