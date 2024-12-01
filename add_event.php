@@ -40,15 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #e5e5e5; /* Light gray background */
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: linear-gradient(135deg, #ff5c8d, #6a82fb);
-            animation: fadeIn 0.8s ease-out;
         }
 
         .container {
@@ -58,28 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             width: 100%;
-            animation: slideIn 1s ease-out;
         }
 
         h2 {
-            color: #333;
+            color: #294D61; /* Dark blue */
             font-size: 36px;
             font-weight: 700;
             text-align: center;
             margin-bottom: 20px;
             text-transform: uppercase;
-            background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
+            background-image: linear-gradient(to left, #0F969C, #6DA5C0);
             color: transparent;
-            animation: textAnimate 2s ease-out infinite;
+            background-clip: text;
         }
 
-        /* Animation for title */
-        @keyframes textAnimate {
-            0% { background-position: -500% 0; }
-            50% { background-position: 500% 0; }
-            100% { background-position: -500% 0; }
-        }
-
+        /* Form input and textarea styling */
         .form-group input, .form-group textarea {
             border-radius: 10px;
             border: 2px solid #ddd;
@@ -90,13 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-group input:focus, .form-group textarea:focus {
-            border-color: #6a82fb;
-            box-shadow: 0 0 8px rgba(106, 130, 251, 0.6);
+            border-color: #0F969C; /* Accent color on focus */
+            box-shadow: 0 0 8px rgba(15, 150, 156, 0.6);
             outline: none;
         }
 
         button[type="submit"] {
-            background-color: #6a82fb;
+            background-color: #0F969C; /* Accent color */
             color: #fff;
             border: none;
             padding: 14px;
@@ -109,12 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         button[type="submit"]:hover {
-            background-color: #ff5c8d;
+            background-color: #294D61; /* Darker blue */
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: #444;
+            background-color: #072E33; /* Dark teal */
             color: #fff;
             padding: 14px;
             width: 100%;
@@ -126,20 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .btn-secondary:hover {
-            background-color: #333;
+            background-color: #05161A; /* Darkest teal */
         }
 
-        /* Animation keyframes */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            0% { transform: translateY(20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
+        /* Placeholder text styling */
         .form-group input::placeholder, .form-group textarea::placeholder {
             color: #aaa;
         }
