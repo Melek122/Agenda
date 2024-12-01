@@ -11,10 +11,14 @@ if (!isset($_SESSION['user_id'])) {
 // Get the user_id from the session
 $user_id = $_SESSION['user_id'];
 
-// Query to fetch user events from the database using MySQLi
-$query = "SELECT * FROM events WHERE user_id = ? ORDER BY event_date";
+// Capture the search query if exists
+$search_query = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Modify the query to include search functionality
+$query = "SELECT * FROM events WHERE user_id = ? AND (title LIKE ? OR event_date LIKE ?) ORDER BY event_date";
 $stmt = $con->prepare($query);
-$stmt->bind_param("i", $user_id); // Bind user_id as an integer
+$search_term = "%" . $search_query . "%"; // Wrap search query with % for LIKE
+$stmt->bind_param("iss", $user_id, $search_term, $search_term);
 $stmt->execute();
 
 // Get the results
@@ -67,7 +71,6 @@ $stmt->close();
             letter-spacing: 1px;
         }
 
-        /* Button Styles */
         .btn-primary {
             background-color: #294D61;
             border: none;
@@ -164,6 +167,12 @@ $stmt->close();
 <body>
     <div class="container">
         <h2>Your Agenda</h2>
+
+        <!-- Search Form -->
+        <form action="index.php" method="GET" class="mb-4">
+            <input type="text" name="search" class="form-control" placeholder="Search events..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
 
         <a href="add_event.php" class="btn btn-primary">+ Add New Event</a>
 
