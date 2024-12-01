@@ -128,6 +128,14 @@ $stmt->close();
             margin-top: 20px;
         }
 
+        .action-btns {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .action-btns a {
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +152,7 @@ $stmt->close();
                     <th>Title</th>
                     <th>Date</th>
                     <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -153,11 +162,16 @@ $stmt->close();
                             <td><?php echo htmlspecialchars($event['title']); ?></td>
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
+                            <td class="action-btns">
+                                <!-- Edit and Delete buttons -->
+                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3">No events found</td>
+                        <td colspan="4">No events found</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
