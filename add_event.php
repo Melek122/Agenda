@@ -58,21 +58,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 <head>
     <title>Add New Event</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e5e5e5; /* Light gray background */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Circe', sans-serif;
+            background-color: #E9E9EB;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #43506C;
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -81,70 +86,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         h2 {
-            color: #294D61; /* Dark blue */
-            font-size: 36px;
-            font-weight: 700;
+            color: #43506C;
+            font-size: 28px;
+            font-weight: bold;
             text-align: center;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            background-image: linear-gradient(to left, #0F969C, #6DA5C0);
-            color: transparent;
-            background-clip: text;
         }
 
-        /* Form input and textarea styling */
-        .form-group input, .form-group textarea {
-            border-radius: 10px;
-            border: 2px solid #ddd;
+        .form-group input, 
+        .form-group textarea {
+            border-radius: 8px;
+            border: 2px solid #3D619B;
             padding: 12px;
             font-size: 16px;
             width: 100%;
-            transition: border-color 0.3s ease;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #0F969C; /* Accent color on focus */
-            box-shadow: 0 0 8px rgba(15, 150, 156, 0.6);
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: #EF4B4C;
+            box-shadow: 0 0 8px rgba(239, 75, 76, 0.6);
             outline: none;
         }
 
         button[type="submit"] {
-            background-color: #0F969C; /* Accent color */
-            color: #fff;
+            background-color: #3D619B;
+            color: white;
             border: none;
             padding: 14px;
             font-size: 16px;
             width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         button[type="submit"]:hover {
-            background-color: #294D61; /* Darker blue */
+            background-color: #EF4B4C;
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: #072E33; /* Dark teal */
-            color: #fff;
-            padding: 14px;
-            width: 100%;
-            font-size: 16px;
-            border-radius: 10px;
+            background-color: #43506C;
+            color: white;
             text-align: center;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            display: inline-block;
+            text-decoration: none;
             margin-top: 15px;
             transition: background-color 0.3s ease;
         }
 
         .btn-secondary:hover {
-            background-color: #05161A; /* Darkest teal */
+            background-color: #3D619B;
         }
 
-        /* Placeholder text styling */
-        .form-group input::placeholder, .form-group textarea::placeholder {
-            color: #aaa;
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
         }
     </style>
 </head>
@@ -164,8 +168,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add Event</button>
-            <a href="index.php" class="btn btn-secondary">Back to Home</a>
+            <button type="submit" class="btn">Add Event</button>
+            <a href="index.php" class="btn-secondary">Back to Home</a>
         </form>
     </div>
 </body>
