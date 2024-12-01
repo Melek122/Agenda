@@ -15,13 +15,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = mysqli_real_escape_string($con, $_POST['title']);  // Sanitize title input
     $description = mysqli_real_escape_string($con, $_POST['description']);  // Sanitize description input
     $event_date = $_POST['event_date'];  // Get event date from form
+    $tags = $_POST['tags'];  // Get tags from form input
 
     // Insert event into the database
     $sql = "INSERT INTO events (user_id, title, description, event_date) VALUES ('$user_id', '$title', '$description', '$event_date')";
-
-    // Execute the query
     if ($con->query($sql) === TRUE) {
-        // If insertion is successful, redirect to index.php
+        $event_id = $con->insert_id; // Get the ID of the inserted event
+
+        // Process tags
+        $tags_array = array_map('trim', explode(',', $tags));  // Split tags by comma and trim whitespace
+        foreach ($tags_array as $tag_name) {
+            // Check if the tag already exists
+            $tag_sql = "SELECT id FROM tags WHERE tag_name = '$tag_name'";
+            $tag_result = $con->query($tag_sql);
+            if ($tag_result->num_rows > 0) {
+                $tag = $tag_result->fetch_assoc();
+                $tag_id = $tag['id'];
+            } else {
+                // If tag doesn't exist, insert new tag
+                $insert_tag_sql = "INSERT INTO tags (tag_name) VALUES ('$tag_name')";
+                if ($con->query($insert_tag_sql) === TRUE) {
+                    $tag_id = $con->insert_id; // Get the newly inserted tag ID
+                }
+            }
+
+            // Link the tag to the event
+            $link_tag_sql = "INSERT INTO event_tags (event_id, tag_id) VALUES ('$event_id', '$tag_id')";
+            $con->query($link_tag_sql);
+        }
+
+        // Redirect to index.php after adding the event
         header('Location: index.php');
         exit();
     } else {
@@ -36,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <title>Add New Event</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -138,6 +160,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="form-group">
                 <textarea name="description" class="form-control" placeholder="Event Description" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Event</button>
             <a href="index.php" class="btn btn-secondary">Back to Home</a>
