@@ -1,12 +1,10 @@
 <?php
 session_start();
+require_once 'db.php';
 
-// Include the database connection file (assuming db.php contains MySQLi connection setup)
-require_once 'db.php'; // Include the MySQLi connection file
-
-// Check if the user is logged in
+// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: signin.php'); // Redirect to signin page if user is not logged in
+    header('Location: signin.php');
     exit();
 }
 
@@ -32,6 +30,8 @@ $stmt->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Professional Agenda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -99,35 +99,6 @@ $stmt->close();
             transform: scale(1.05);
         }
 
-        .btn-small {
-            font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-edit {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-
-        .btn-edit:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-        }
-
         /* Table Styles */
         .table {
             margin-top: 20px;
@@ -155,81 +126,14 @@ $stmt->close();
             color: #555;
         }
 
-        /* Theme Switcher */
-        .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .sign-out-btn {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        .theme-switcher button {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 16px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-switcher button.light {
-            background-color: #4a4a8c;
-        }
-
-        .theme-switcher button.light:hover {
-            background-color: #6a82fb;
-        }
-
-        .theme-switcher button.dark {
-            background-color: #333;
-        }
-
-        .theme-switcher button.dark:hover {
-            background-color: #555;
-        }
-
-        /* Dark Theme Styles */
-        body.dark {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-
-        body.dark .container {
-            background-color: #1e1e1e;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        body.dark h2 {
-            color: #ff7e5f;
-        }
-
-        body.dark .btn-primary {
-            background-color: #ff7e5f;
-        }
-
-        body.dark .btn-primary:hover {
-            background-color: #feb47b;
-        }
-
-        body.dark .table th {
-            background-color: #333;
-            color: #e0e0e0;
-        }
-
-        body.dark .table td {
-            color: #b0bec5;
-        }
     </style>
 </head>
 <body>
-    <div class="theme-switcher">
-        <button class="light" onclick="switchTheme('light')">L</button>
-        <button class="dark" onclick="switchTheme('dark')">D</button>
-    </div>
-
     <div class="container">
         <h2>Your Agenda</h2>
 
@@ -245,6 +149,7 @@ $stmt->close();
                 </tr>
             </thead>
             <tbody>
+                <!-- PHP code to loop through events -->
                 <?php if (!empty($events)) : ?>
                     <?php foreach ($events as $event) : ?>
                         <tr>
@@ -252,8 +157,11 @@ $stmt->close();
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
                             <td>
-                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
-                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                                <!-- Edit Button -->
+                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
+
+                                <!-- Delete Button -->
+                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -263,16 +171,12 @@ $stmt->close();
                     </tr>
                 <?php endif; ?>
             </tbody>
+        </table>
 
         <div class="sign-out-btn">
             <a href="logout.php" class="btn btn-danger">Sign Out</a>
         </div>
     </div>
 
-    <script>
-        function switchTheme(theme) {
-            document.body.className = theme;
-        }
-    </script>
 </body>
 </html>
