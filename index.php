@@ -81,6 +81,7 @@ $stmt->close();
             letter-spacing: 1px;
         }
 
+        /* Button Styles */
         .btn-primary {
             background-color: #294D61;
             border: none;
@@ -97,8 +98,23 @@ $stmt->close();
             transform: scale(1.05);
         }
 
+        .btn-edit {
+            background-color: #0C7075;  /* Matching the palette */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-edit:hover {
+            background-color: #072E33;  /* Hover effect */
+            transform: translateY(-2px);
+        }
+
         .btn-danger {
-            background-color: #f5624d;
+            background-color: #f5624d;  /* Matching the palette */
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
@@ -108,37 +124,8 @@ $stmt->close();
         }
 
         .btn-danger:hover {
-            background-color: #d64535;
+            background-color: #d64535;  /* Hover effect */
             transform: scale(1.05);
-        }
-
-        .btn-small {
-            font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-edit {
-            background-color: #0C7075;
-            color: white;
-            border: none;
-        }
-
-        .btn-edit:hover {
-            background-color: #072E33;
-            transform: translateY(-2px);
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
         }
 
         /* Table Styles */
@@ -157,7 +144,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #294D61;
+            background-color: #294D61; /* Dark blue for headers */
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -223,7 +210,7 @@ $stmt->close();
                                 <?php echo htmlspecialchars($event['tags']); ?>
                             </td>
                             <td>
-                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-edit btn-sm">Edit</a>
                                 <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
