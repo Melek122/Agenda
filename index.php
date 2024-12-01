@@ -245,18 +245,24 @@ $stmt->close();
                 </tr>
             </thead>
             <tbody>
-                <!-- PHP code to loop through events -->
-                <tr>
-                    <td>Sample Event</td>
-                    <td>2024-12-01</td>
-                    <td>This is a sample description</td>
-                    <td>
-                        <button class="btn btn-small btn-edit">Edit</button>
-                        <button class="btn btn-small btn-delete">Delete</button>
-                    </td>
-                </tr>
+                <?php if (!empty($events)) : ?>
+                    <?php foreach ($events as $event) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($event['title']); ?></td>
+                            <td><?php echo htmlspecialchars($event['event_date']); ?></td>
+                            <td><?php echo htmlspecialchars($event['description']); ?></td>
+                            <td>
+                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
+                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="4">No events found. Click "Add New Event" to create one.</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
-        </table>
 
         <div class="sign-out-btn">
             <a href="logout.php" class="btn btn-danger">Sign Out</a>
