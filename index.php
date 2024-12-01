@@ -25,11 +25,6 @@ $events = $result->fetch_all(MYSQLI_ASSOC);
 
 // Close the statement
 $stmt->close();
-
-// Helper function to convert dd/mm/yyyy to yyyy-mm-dd format
-function convertDateFormat($date) {
-    $dateParts = explode('/', $date); // Split date by "/"
-    return $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // Return in yyyy-mm-dd format
 ?>
 
 <!DOCTYPE html>
@@ -38,14 +33,7 @@ function convertDateFormat($date) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda</title>
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list/main.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <style>
         /* General Styles */
         body {
@@ -177,56 +165,46 @@ function convertDateFormat($date) {
     <div class="container">
         <h2>Your Agenda</h2>
 
-        <!-- Add New Event Button -->
         <a href="add_event.php" class="btn btn-primary">+ Add New Event</a>
 
-        <!-- Calendar Display -->
-        <div id="calendar"></div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- PHP code to loop through events -->
+                <?php if (!empty($events)) : ?>
+                    <?php foreach ($events as $event) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($event['title']); ?></td>
+                            <td><?php echo htmlspecialchars($event['event_date']); ?></td>
+                            <td><?php echo htmlspecialchars($event['description']); ?></td>
+                            <td>
+                                <!-- Edit Button -->
+                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
+
+                                <!-- Delete Button -->
+                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="4">No events found. Click "Add New Event" to create one.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
         <!-- Sign out button -->
         <div class="sign-out-btn">
             <a href="logout.php" class="btn btn-danger">Sign Out</a>
         </div>
     </div>
-
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list/main.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Prepare events for FullCalendar with date conversion
-            const events = <?php echo json_encode($events); ?>;
-            
-            const calendarEvents = events.map(event => {
-                const formattedDate = "<?php echo convertDateFormat($event['event_date']); ?>"; // PHP conversion here
-                return {
-                    title: event.title,
-                    start: formattedDate, // Ensure event_date is in yyyy-mm-dd format
-                    description: event.description
-                };
-            });
-
-            // Initialize FullCalendar
-            const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['dayGrid', 'interaction', 'list'],
-                initialView: 'dayGridMonth',
-                events: calendarEvents,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                },
-                eventClick: function(info) {
-                    alert('Event: ' + info.event.title + '\n' + info.event.start.toISOString());
-                }
-            });
-
-            calendar.render();
-        });
-    </script>
 </body>
 </html>
