@@ -182,22 +182,6 @@ $stmt->close();
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .theme-switcher button.light {
-            background-color: #4a4a8c;
-        }
-
-        .theme-switcher button.light:hover {
-            background-color: #6a82fb;
-        }
-
-        .theme-switcher button.dark {
-            background-color: #333;
-        }
-
-        .theme-switcher button.dark:hover {
-            background-color: #555;
-        }
-
         /* Dark Theme Styles */
         body.dark {
             background-color: #121212;
@@ -233,8 +217,7 @@ $stmt->close();
 </head>
 <body>
     <div class="theme-switcher">
-        <button class="light" onclick="switchTheme('light')">L</button>
-        <button class="dark" onclick="switchTheme('dark')">D</button>
+        <button id="theme-toggle" class="dark" onclick="switchTheme()">D</button>
     </div>
 
     <div class="container">
@@ -282,8 +265,20 @@ $stmt->close();
     </div>
 
     <script>
-        function switchTheme(theme) {
-            document.body.className = theme;
+        function switchTheme() {
+            const currentTheme = document.body.className;
+            const themeButton = document.getElementById("theme-toggle");
+
+            // Switch between dark and light themes
+            if (currentTheme === "dark") {
+                document.body.className = "light";
+                themeButton.innerHTML = "D"; // Show D for Dark Mode
+                themeButton.className = "dark"; // Button shows "D" for Dark mode
+            } else {
+                document.body.className = "dark";
+                themeButton.innerHTML = "L"; // Show L for Light Mode
+                themeButton.className = "light"; // Button shows "L" for Light mode
+            }
         }
     </script>
 </body>
