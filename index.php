@@ -146,6 +146,13 @@ $stmt->close();
             transform: scale(1.05);
         }
 
+        /* Align Edit and Delete buttons next to each other */
+        .btn-container {
+            display: flex;
+            gap: 10px;  /* Space between buttons */
+            justify-content: center; /* Optionally center the buttons */
+        }
+
         /* Table Styles */
         .table {
             margin-top: 20px;
@@ -250,8 +257,10 @@ $stmt->close();
                             <td><?php echo htmlspecialchars($event['tags']); ?></td>
                             <td><?php echo htmlspecialchars($event['category']); ?></td>
                             <td>
-                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-edit btn-sm">Edit</a>
-                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                                <div class="btn-container">
+                                    <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-edit btn-sm">Edit</a>
+                                    <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
