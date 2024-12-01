@@ -115,33 +115,19 @@ $stmt->close();
             transform: scale(1.05);
         }
 
-        .btn-edit {
+        .btn-edit, .btn-danger {
             background-color: #43506C;  /* Matching the palette */
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 6px 12px; /* Small padding */
+            font-size: 12px;  /* Smaller font size */
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 4px; /* Small radius for elegance */
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .btn-edit:hover {
+        .btn-edit:hover, .btn-danger:hover {
             background-color: #EF4B4C;  /* Hover effect */
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background-color: #EF4B4C;  /* Red for delete buttons */
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            color: #fff;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .btn-danger:hover {
-            background-color: #43506C;  /* Hover effect */
             transform: scale(1.05);
         }
 
