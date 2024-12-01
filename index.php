@@ -11,11 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 // Get the user_id from the session
 $user_id = $_SESSION['user_id'];
 
-// Capture the search query if exists
+// Capture the search query and sort option
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
+$sort_option = isset($_GET['sort']) ? $_GET['sort'] : 'event_date'; // Default sort by event date
+$sort_order = isset($_GET['order']) ? $_GET['order'] : 'ASC'; // Default order is ascending
 
-// Modify the query to include search functionality
-$query = "SELECT * FROM events WHERE user_id = ? AND (title LIKE ? OR event_date LIKE ?) ORDER BY event_date";
+// Modify the query to include search and sorting functionality
+$query = "SELECT * FROM events WHERE user_id = ? AND (title LIKE ? OR event_date LIKE ?) ORDER BY $sort_option $sort_order";
 $stmt = $con->prepare($query);
 $search_term = "%" . $search_query . "%"; // Wrap search query with % for LIKE
 $stmt->bind_param("iss", $user_id, $search_term, $search_term);
@@ -172,6 +174,21 @@ $stmt->close();
         <form action="index.php" method="GET" class="mb-4">
             <input type="text" name="search" class="form-control" placeholder="Search events..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
             <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+
+        <!-- Sort Dropdown -->
+        <form action="index.php" method="GET" class="mb-4">
+            <select name="sort" class="form-control">
+                <option value="event_date" <?php echo ($sort_option == 'event_date') ? 'selected' : ''; ?>>Sort by Date</option>
+                <option value="title" <?php echo ($sort_option == 'title') ? 'selected' : ''; ?>>Sort by Title</option>
+            </select>
+
+            <select name="order" class="form-control mt-2">
+                <option value="ASC" <?php echo ($sort_order == 'ASC') ? 'selected' : ''; ?>>Ascending</option>
+                <option value="DESC" <?php echo ($sort_order == 'DESC') ? 'selected' : ''; ?>>Descending</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary mt-2">Sort</button>
         </form>
 
         <a href="add_event.php" class="btn btn-primary">+ Add New Event</a>
