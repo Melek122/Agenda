@@ -192,13 +192,14 @@ $stmt->close();
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Prepare events for FullCalendar
+            // Prepare events for FullCalendar with date conversion
             const events = <?php echo json_encode($events); ?>;
             
             const calendarEvents = events.map(event => {
+                const formattedDate = "<?php echo convertDateFormat($event['event_date']); ?>"; // PHP conversion here
                 return {
                     title: event.title,
-                    start: event.event_date, // Assuming event_date is in a valid date format
+                    start: formattedDate, // Ensure event_date is in yyyy-mm-dd format
                     description: event.description
                 };
             });
