@@ -32,85 +32,46 @@ $stmt->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Professional Agenda</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f5f7fa;
+            background: linear-gradient(to right, #6a82fb, #fc5c7d);
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
         }
 
         .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 900px;
             width: 100%;
         }
 
         h2 {
-            color: #333;
-            font-size: 36px;
-            font-weight: 700;
             text-align: center;
             margin-bottom: 20px;
+            color: #333;
             text-transform: uppercase;
-            background-image: linear-gradient(to left, #ff5c8d, #6a82fb);
-            
-            color: transparent;
-            animation: textAnimate 2s ease-out infinite;
-        }
-
-        @keyframes textAnimate {
-            0% { background-position: -500% 0; }
-            50% { background-position: 500% 0; }
-            100% { background-position: -500% 0; }
+            font-size: 2.5rem;
         }
 
         .btn-primary, .btn-danger {
-            font-size: 16px;
-            padding: 14px;
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            transition: background-color 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .btn-primary {
-            background-color: #6a82fb;
-            color: #fff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff5c8d;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .table {
-            background-color: white;
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            text-align: center;
+        .btn-primary:hover, .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .table th {
@@ -118,73 +79,54 @@ $stmt->close();
             color: white;
         }
 
-        .table td {
-            font-size: 14px;
-            color: #333;
+        .table td, .table th {
+            vertical-align: middle;
+            font-size: 0.9rem;
         }
 
         .sign-out-btn {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
-        .action-btns {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .action-btns a {
-            margin: 0 5px;
+        .empty-message {
+            text-align: center;
+            font-style: italic;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Your Agenda</h2>
-
-        <!-- Button to add new event -->
-        <a href="add_event.php" class="btn btn-primary">Add New Event</a>
-
-        <h3 class="text-center">Events Calendar</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($events): ?>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="add_event.php" class="btn btn-primary">Add New Event</a>
+            <a href="logout.php" class="btn btn-danger">Sign Out</a>
+        </div>
+        <h3 class="text-center mb-4">Events Calendar</h3>
+        <?php if ($events): ?>
+            <table class="table table-striped table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php foreach ($events as $event): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($event['title']); ?></td>
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
-                            <td class="action-btns">
-                                <!-- Edit and Delete buttons -->
-                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="4">No events found</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-
-        <!-- Sign Out Button below the table -->
-        <div class="sign-out-btn">
-            <a href="logout.php" class="btn btn-danger">Sign Out</a>
-        </div>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="empty-message">You have no events yet. Add your first event!</p>
+        <?php endif; ?>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
