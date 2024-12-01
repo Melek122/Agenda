@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Fetch user profile information (e.g., username, email)
-$query = "SELECT email FROM users WHERE id = ?";
+$query = "SELECT email, username FROM users WHERE id = ?";
 $stmt = $con->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -177,12 +177,13 @@ $stmt->close();
 <body>
 
     <div class="container">
-        <h2>Welcome, <?php echo htmlspecialchars($user_info['email']); ?>!</h2>
+        <h2>Welcome, <?php echo htmlspecialchars($user_info['username']); ?>!</h2>
 
         <!-- Profile Information -->
         <div class="profile-info mb-4">
             <h4>Profile Information</h4>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($user_info['email']); ?></p>
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($user_info['username']); ?></p>
             <a href="edit_profile.php" class="btn btn-primary">Edit Profile</a>
         </div>
 
