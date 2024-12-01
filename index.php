@@ -37,7 +37,7 @@ $stmt->close();
     <style>
         /* General Styles */
         body {
-            background-color: #f4f4f9;
+            background-color: #fbe4d8; /* Light background color */
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -45,12 +45,12 @@ $stmt->close();
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
+            color: #522b5b; /* Dark color for text */
             transition: all 0.3s ease;
         }
 
         .container {
-            background-color: #E8D8C4;  /* Light Beige for light theme */
+            background-color: #ffffff;
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -65,13 +65,13 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #6D2932;  /* Dark Red for headings */
+            color: #854f6c; /* Custom color */
             letter-spacing: 1px;
         }
 
         /* Button Styles */
         .btn-primary {
-            background-color: #6D2932;  /* Dark Red for buttons */
+            background-color: #854f6c; /* Custom primary color */
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -82,7 +82,7 @@ $stmt->close();
         }
 
         .btn-primary:hover {
-            background-color: #561C24;  /* Deep Maroon for hover */
+            background-color: #dfb6b2; /* Lighten on hover */
             transform: scale(1.05);
         }
 
@@ -146,7 +146,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #6D2932;  /* Dark Red for table headers */
+            background-color: #522b5b; /* Custom dark color */
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -154,7 +154,7 @@ $stmt->close();
 
         .table td {
             font-size: 14px;
-            color: #333;
+            color: #190019; /* Dark text color for table */
         }
 
         .sign-out-btn {
