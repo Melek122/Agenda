@@ -37,7 +37,7 @@ $stmt->close();
     <style>
         /* General Styles */
         body {
-            background-color: #fbe4d8; /* Light background color */
+            background-color: #f4f4f9;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -45,7 +45,7 @@ $stmt->close();
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #522b5b; /* Dark color for text */
+            color: #333;
             transition: all 0.3s ease;
         }
 
@@ -65,13 +65,13 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #854f6c; /* Custom color */
+            color: #294D61;
             letter-spacing: 1px;
         }
 
         /* Button Styles */
         .btn-primary {
-            background-color: #854f6c; /* Custom primary color */
+            background-color: #294D61;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -82,7 +82,7 @@ $stmt->close();
         }
 
         .btn-primary:hover {
-            background-color: #dfb6b2; /* Lighten on hover */
+            background-color: #0F969C;
             transform: scale(1.05);
         }
 
@@ -109,13 +109,13 @@ $stmt->close();
         }
 
         .btn-edit {
-            background-color: #28a745;
+            background-color: #0C7075;
             color: white;
             border: none;
         }
 
         .btn-edit:hover {
-            background-color: #218838;
+            background-color: #072E33;
             transform: translateY(-2px);
         }
 
@@ -146,7 +146,7 @@ $stmt->close();
         }
 
         .table th {
-            background-color: #522b5b; /* Custom dark color */
+            background-color: #294D61;
             color: white;
             text-transform: uppercase;
             font-weight: bold;
@@ -154,7 +154,7 @@ $stmt->close();
 
         .table td {
             font-size: 14px;
-            color: #190019; /* Dark text color for table */
+            color: #555;
         }
 
         .sign-out-btn {
@@ -213,9 +213,49 @@ $stmt->close();
         body.dark .table td {
             color: #b0bec5;
         }
+
+        /* Light Theme Styles */
+        body.light {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        body.light .container {
+            background-color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light h2 {
+            color: #294D61;
+        }
+
+        body.light .btn-primary {
+            background-color: #294D61;
+        }
+
+        body.light .btn-primary:hover {
+            background-color: #0F969C;
+        }
+
+        body.light .btn-danger {
+            background-color: #f5624d;
+        }
+
+        body.light .btn-danger:hover {
+            background-color: #d64535;
+        }
+
+        body.light .table th {
+            background-color: #294D61;
+            color: white;
+        }
+
+        body.light .table td {
+            color: #555;
+        }
     </style>
 </head>
-<body>
+<body class="light">
     <div class="theme-switcher">
         <button id="theme-toggle" class="dark" onclick="switchTheme()">D</button>
     </div>
@@ -259,6 +299,7 @@ $stmt->close();
             </tbody>
         </table>
 
+        <!-- Sign out button -->
         <div class="sign-out-btn">
             <a href="logout.php" class="btn btn-danger">Sign Out</a>
         </div>
@@ -266,18 +307,18 @@ $stmt->close();
 
     <script>
         function switchTheme() {
-            const currentTheme = document.body.className;
-            const themeButton = document.getElementById("theme-toggle");
+            const body = document.body;
+            const themeButton = document.getElementById('theme-toggle');
 
-            // Switch between dark and light themes
-            if (currentTheme === "dark") {
-                document.body.className = "light";
-                themeButton.innerHTML = "D"; // Show D for Dark Mode
-                themeButton.className = "dark"; // Button shows "D" for Dark mode
+            // Toggle the body class to switch between light and dark themes
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeButton.textContent = 'L';
             } else {
-                document.body.className = "dark";
-                themeButton.innerHTML = "L"; // Show L for Light Mode
-                themeButton.className = "light"; // Button shows "L" for Light mode
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeButton.textContent = 'D';
             }
         }
     </script>
