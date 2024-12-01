@@ -43,8 +43,8 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* General reset and basic styles */
         * {
             margin: 0;
             padding: 0;
@@ -52,8 +52,8 @@ if (isset($_POST['login'])) {
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e5e5e5; /* Background color for the page */
+            font-family: 'Circe', sans-serif;
+            background-color: #E9E9EB; /* Light background */
             display: flex;
             height: 100vh;
             justify-content: center;
@@ -66,9 +66,9 @@ if (isset($_POST['login'])) {
             height: 80%;
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* Form container styling */
         .form-container {
             background-color: white;
             padding: 40px;
@@ -77,12 +77,11 @@ if (isset($_POST['login'])) {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             margin-bottom: 20px;
-            color: #294D61; /* Primary color for headers */
+            color: #43506C; /* Primary text color */
         }
 
         input[type="email"],
@@ -98,24 +97,26 @@ if (isset($_POST['login'])) {
 
         input[type="email"]:focus,
         input[type="password"]:focus {
-            border-color: #0F969C; /* Accent color on focus */
+            border-color: #3D619B; /* Input focus color */
             outline: none;
         }
 
         button[type="submit"] {
             width: 100%;
             padding: 15px;
-            background-color: #294D61; /* Primary button color */
+            background-color: #3D619B; /* Button background */
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
         }
 
         button[type="submit"]:hover {
-            background-color: #0C7075; /* Hover effect for the submit button */
+            background-color: #EF4B4C; /* Hover background */
+            transform: translateY(-2px);
         }
 
         p {
@@ -124,18 +125,21 @@ if (isset($_POST['login'])) {
         }
 
         a {
-            color: #0F969C; /* Accent color for links */
+            color: #EF4B4C; /* Accent link color */
             text-decoration: none;
         }
 
+        a:hover {
+            text-decoration: underline;
+        }
+
         .error {
-            color: red;
+            color: #EF4B4C; /* Error message color */
             margin-top: 20px;
         }
 
-        /* Welcome container styling */
         .welcome-container {
-            background-color: #294D61; /* Primary color for the welcome container */
+            background-color: #43506C; /* Dark container background */
             color: white;
             padding: 40px;
             width: 50%;
@@ -143,7 +147,6 @@ if (isset($_POST['login'])) {
             flex-direction: column;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .welcome-container h3 {
@@ -159,16 +162,17 @@ if (isset($_POST['login'])) {
         .welcome-container button {
             padding: 12px 25px;
             background-color: white;
-            color: #294D61; /* Primary color for button */
+            color: #43506C; /* Text on welcome button */
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.2s;
         }
 
         .welcome-container button:hover {
-            background-color: #6DA5C0; /* Secondary color for hover effect */
+            background-color: #EF4B4C; /* Button hover background */
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
@@ -187,7 +191,6 @@ if (isset($_POST['login'])) {
 </head>
 <body>
     <div class="container">
-        <!-- Formulaire de connexion -->
         <div class="form-container">
             <h2>Se connecter</h2>
             <form action="signin.php" method="POST">
@@ -195,14 +198,9 @@ if (isset($_POST['login'])) {
                 <input type="password" name="password" placeholder="Mot de passe" required><br>
                 <button type="submit" name="login">Se connecter</button>
             </form>
-
-            <!-- Display error message -->
             <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-
             <p>Pas encore de compte ? <a href="signup.php">Inscrivez-vous ici</a>.</p>
         </div>
-
-        <!-- Welcome note -->
         <div class="welcome-container">
             <h3>Bienvenue dans l'Agenda !</h3>
             <p>Nous sommes ravis de vous accueillir ! Connectez-vous pour profiter d'une expérience organisée, où vous pouvez facilement gérer vos événements, tâches et rendez-vous.</p>
