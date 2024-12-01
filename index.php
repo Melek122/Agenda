@@ -17,7 +17,15 @@ $sort_option = isset($_GET['sort']) ? $_GET['sort'] : 'event_date'; // Default s
 $sort_order = isset($_GET['order']) ? $_GET['order'] : 'ASC'; // Default order is ascending
 
 // Modify the query to include search and sorting functionality
-$query = "SELECT * FROM events WHERE user_id = ? AND (title LIKE ? OR event_date LIKE ?) ORDER BY $sort_option $sort_order";
+$query = "
+    SELECT e.*, GROUP_CONCAT(t.tag_name ORDER BY t.tag_name ASC) AS tags
+    FROM events e
+    LEFT JOIN event_tags et ON e.id = et.event_id
+    LEFT JOIN tags t ON et.tag_id = t.id
+    WHERE e.user_id = ? AND (e.title LIKE ? OR e.event_date LIKE ?)
+    GROUP BY e.id
+    ORDER BY $sort_option $sort_order
+";
 $stmt = $con->prepare($query);
 $search_term = "%" . $search_query . "%"; // Wrap search query with % for LIKE
 $stmt->bind_param("iss", $user_id, $search_term, $search_term);
@@ -199,6 +207,7 @@ $stmt->close();
                     <th>Title</th>
                     <th>Date</th>
                     <th>Description</th>
+                    <th>Tags</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -211,26 +220,21 @@ $stmt->close();
                             <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                             <td><?php echo htmlspecialchars($event['description']); ?></td>
                             <td>
-                                <!-- Edit Button -->
-                                <a href="edit_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-edit">Edit</a>
-
-                                <!-- Delete Button -->
-                                <a href="delete_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
+                                <?php echo htmlspecialchars($event['tags']); ?>
+                            </td>
+                            <td>
+                                <a href="edit_event.php?id=<?php echo $event['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="delete_event.php?id=<?php echo $event['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <tr>
-                        <td colspan="4">No events found. Click "Add New Event" to create one.</td>
+                        <td colspan="5">No events found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-
-        <!-- Sign out button -->
-        <div class="sign-out-btn">
-            <a href="logout.php" class="btn btn-danger">Sign Out</a>
-        </div>
     </div>
 </body>
 </html>
