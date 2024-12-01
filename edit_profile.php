@@ -11,19 +11,20 @@ $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_email = $_POST['email'];
+    $new_username = $_POST['username'];
     $new_password = $_POST['password'];
-
+    
     // If password is provided, update it
     if (!empty($new_password)) {
         $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-        $query = "UPDATE users SET email = ?, password = ? WHERE id = ?";
+        $query = "UPDATE users SET email = ?, username = ?, password = ? WHERE id = ?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param("ssi", $new_email, $hashed_password, $user_id);
+        $stmt->bind_param("sssi", $new_email, $new_username, $hashed_password, $user_id);
     } else {
-        // If no password is provided, just update the email
-        $query = "UPDATE users SET email = ? WHERE id = ?";
+        // If no password is provided, just update the email and username
+        $query = "UPDATE users SET email = ?, username = ? WHERE id = ?";
         $stmt = $con->prepare($query);
-        $stmt->bind_param("si", $new_email, $user_id);
+        $stmt->bind_param("ssi", $new_email, $new_username, $user_id);
     }
 
     $stmt->execute();
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: profile.php');
 }
 
-$query = "SELECT email FROM users WHERE id = ?";
+$query = "SELECT email, username FROM users WHERE id = ?";
 $stmt = $con->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -113,25 +114,29 @@ $user_info = $user_result->fetch_assoc();
 
 <body>
 
-    <div class="container">
-        <h2>Edit Your Profile</h2>
-        <form method="POST" action="edit_profile.php">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control"
-                    value="<?php echo htmlspecialchars($user_info['email']); ?>" required>
-            </div>
+<div class="container">
+    <h2>Edit Your Profile</h2>
+    <form method="POST" action="edit_profile.php">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user_info['email']); ?>" required>
+        </div>
 
-            <div class="form-group">
-                <label for="password">New Password (Leave empty if you don't want to change it)</label>
-                <input type="password" name="password" class="form-control" placeholder="Enter new password">
-            </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" value="<?php echo htmlspecialchars($user_info['username']); ?>" required>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+        <div class="form-group">
+            <label for="password">New Password (Leave empty if you don't want to change it)</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter new password">
+        </div>
 
-        <a href="profile.php" class="btn btn-back">Back to Profile</a>
-    </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+    <a href="profile.php" class="btn btn-back">Back to Profile</a>
+</div>
 
 </body>
 
