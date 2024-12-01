@@ -10,15 +10,25 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];  // Get the user ID from the session
 
+// Fetch categories from the database
+$category_query = "SELECT * FROM categories";
+$category_result = $con->query($category_query);
+$categories = [];
+while ($category = $category_result->fetch_assoc()) {
+    $categories[] = $category;
+}
+
 // Handle adding new events when form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = mysqli_real_escape_string($con, $_POST['title']);  // Sanitize title input
     $description = mysqli_real_escape_string($con, $_POST['description']);  // Sanitize description input
     $event_date = $_POST['event_date'];  // Get event date from form
+    $category_id = $_POST['category'];  // Get category from form
     $tags = $_POST['tags'];  // Get tags from form input
 
     // Insert event into the database
-    $sql = "INSERT INTO events (user_id, title, description, event_date) VALUES ('$user_id', '$title', '$description', '$event_date')";
+    $sql = "INSERT INTO events (user_id, title, description, event_date, category_id) 
+            VALUES ('$user_id', '$title', '$description', '$event_date', '$category_id')";
     if ($con->query($sql) === TRUE) {
         $event_id = $con->insert_id; // Get the ID of the inserted event
 
@@ -94,7 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-group input, 
-        .form-group textarea {
+        .form-group textarea, 
+        .form-group select {
             border-radius: 8px;
             border: 2px solid #3D619B;
             padding: 12px;
@@ -105,7 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-group input:focus, 
-        .form-group textarea:focus {
+        .form-group textarea:focus, 
+        .form-group select:focus {
             border-color: #EF4B4C;
             box-shadow: 0 0 8px rgba(239, 75, 76, 0.6);
             outline: none;
@@ -164,6 +176,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="form-group">
                 <textarea name="description" class="form-control" placeholder="Event Description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category" class="form-control" required>
+                    <option value="">Select Category</option>
+                    <?php foreach ($categories as $category) : ?>
+                        <option value="<?php echo $category['id']; ?>"><?php echo htmlspecialchars($category['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="form-group">
                 <input type="text" name="tags" class="form-control" placeholder="Enter tags (comma separated)" required>
