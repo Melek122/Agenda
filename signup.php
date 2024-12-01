@@ -146,14 +146,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <div class="form-container">
-            <h2>Inscription</h2>
+            <h2>Sign Up</h2>
             <form action="signup.php" method="POST">
-                <input type="email" name="email" placeholder="E-mail" required><br>
-                <input type="password" name="password" placeholder="Mot de passe" required><br>
-                <button type="submit">S'inscrire</button>
+                <input type="email" name="email" placeholder="Email" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <button type="submit">Sign Up</button>
             </form>
-            <p>Vous avez déjà un compte ? <a href="signin.php">Connectez-vous ici</a>.</p>
+            <p>Already have an account? <a href="signin.php">Log in here</a>.</p>
         </div>
     </div>
 </body>
+
 </html>
