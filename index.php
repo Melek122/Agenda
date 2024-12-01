@@ -37,7 +37,7 @@ $stmt->close();
     <style>
         /* General Styles */
         body {
-            background-color: #f4f4f9; /* Default for Dark Theme */
+            background-color: #e5e5e5; /* Light gray background */
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -45,8 +45,7 @@ $stmt->close();
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
-            transition: all 0.3s ease;
+            color: #072E33; /* Dark gray text color */
         }
 
         .container {
@@ -56,7 +55,6 @@ $stmt->close();
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
-            transition: all 0.3s ease;
         }
 
         h2 {
@@ -65,7 +63,7 @@ $stmt->close();
             text-align: center;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: #294D61;
+            color: #294D61; /* Dark blue for the title */
             letter-spacing: 1px;
         }
 
@@ -161,105 +159,9 @@ $stmt->close();
             margin-top: 20px;
             text-align: center;
         }
-
-        /* Theme Switcher */
-        .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .theme-switcher button {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 16px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Dark Theme Styles */
-        body.dark {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-
-        body.dark .container {
-            background-color: #1e1e1e;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        body.dark h2 {
-            color: #ff7e5f;
-        }
-
-        body.dark .btn-primary {
-            background-color: #ff7e5f;
-        }
-
-        body.dark .btn-primary:hover {
-            background-color: #feb47b;
-        }
-
-        body.dark .table th {
-            background-color: #333;
-            color: #e0e0e0;
-        }
-
-        body.dark .table td {
-            color: #b0bec5;
-        }
-
-        /* Light Theme Styles */
-        body.light {
-            background-color: #e5e5e5; /* Light gray background */
-            color: #333;
-        }
-
-        body.light .container {
-            background-color: #ffffff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        body.light h2 {
-            color: #294D61;
-        }
-
-        body.light .btn-primary {
-            background-color: #294D61;
-        }
-
-        body.light .btn-primary:hover {
-            background-color: #0F969C;
-        }
-
-        body.light .btn-danger {
-            background-color: #f5624d;
-        }
-
-        body.light .btn-danger:hover {
-            background-color: #d64535;
-        }
-
-        body.light .table th {
-            background-color: #294D61;
-            color: white;
-        }
-
-        body.light .table td {
-            color: #555;
-        }
     </style>
 </head>
-<body class="light">
-    <div class="theme-switcher">
-        <button id="theme-toggle" class="dark" onclick="switchTheme()">D</button>
-    </div>
-
+<body>
     <div class="container">
         <h2>Your Agenda</h2>
 
@@ -304,23 +206,5 @@ $stmt->close();
             <a href="logout.php" class="btn btn-danger">Sign Out</a>
         </div>
     </div>
-
-    <script>
-        function switchTheme() {
-            const body = document.body;
-            const themeButton = document.getElementById('theme-toggle');
-
-            // Toggle the body class to switch between light and dark themes
-            if (body.classList.contains('light')) {
-                body.classList.remove('light');
-                body.classList.add('dark');
-                themeButton.textContent = 'L';
-            } else {
-                body.classList.remove('dark');
-                body.classList.add('light');
-                themeButton.textContent = 'D';
-            }
-        }
-    </script>
 </body>
 </html>
