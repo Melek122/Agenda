@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy PHP app to Azure Web App - agenda-app
 
 on:
@@ -20,6 +17,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+
+      - name: Validate PHP syntax
+        run: |
+          echo "Checking PHP syntax..."
+          find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
 
       - name: Check if composer.json exists
         id: check_files
@@ -72,4 +74,3 @@ jobs:
           app-name: 'agenda-app'
           slot-name: 'Production'
           package: .
-          
