@@ -238,7 +238,7 @@ $stmt->close();
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Title v2</th>
                     <th>Date</th>
                     <th>Description</th>
                     <th>Tags</th>
